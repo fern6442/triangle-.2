@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สามเหลี่ยมเท่ากันทุกประการ | ม.2</title>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Mitr:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#339af0;--pink:#ff6fae;--yellow:#ffd43b;--green:#40c057;--purple:#845ef7;--ink:#3b2f63}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Mali','Mitr','Noto Sans Thai',sans-serif;color:var(--ink);background:linear-gradient(160deg,#e7f5ff 0%,#fff0f6 50%,#fff9db 100%);min-height:100vh;padding:14px}
+.wrap{max-width:1100px;margin:auto}
+h1{font-family:'Mitr','Mali',sans-serif;font-weight:500;margin:6px 0;font-size:clamp(22px,4.5vw,36px);text-align:center;color:var(--purple);text-shadow:0 3px 0 #fff,0 6px 0 #d0bfff}
+.sub{text-align:center;margin:0 0 14px;font-size:15px}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.btn{font-family:inherit;font-size:16px;font-weight:700;border:0;border-radius:16px;padding:10px 18px;cursor:pointer;color:#fff;background:var(--purple);box-shadow:0 6px 0 #5f3dc4;transition:.1s}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #5f3dc4}
+.btn.pk{background:var(--pink);box-shadow:0 6px 0 #d6336c}.btn.pk:active{box-shadow:0 1px 0 #d6336c}
+.btn.gn{background:var(--green);box-shadow:0 6px 0 #2b8a3e}.btn.gn:active{box-shadow:0 1px 0 #2b8a3e}
+.btn.yl{background:var(--yellow);color:#5c4a00;box-shadow:0 6px 0 #f59f00}.btn.yl:active{box-shadow:0 1px 0 #f59f00}
+.btn.sm{font-size:14px;padding:7px 12px;border-radius:12px}
+.tab{background:#fff;color:var(--purple);box-shadow:0 6px 0 #d0bfff}
+.tab.on{background:var(--purple);color:#fff;box-shadow:0 6px 0 #5f3dc4}
+.pane{display:none}.pane.on{display:block}
+.card{background:#fff;border:3px solid #fff;border-radius:26px;padding:16px;box-shadow:0 8px 0 #d0bfff,0 14px 24px rgba(132,94,247,.2);margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.mini{border-radius:20px;padding:14px;color:#fff;box-shadow:0 7px 0 rgba(0,0,0,.18)}
+.mini h3{margin:0 0 6px;font-size:19px}.mini p{margin:4px 0;font-size:14px;line-height:1.5}
+.c1{background:linear-gradient(145deg,#74c0fc,#339af0)}.c2{background:linear-gradient(145deg,#ffa8d1,#ff6fae)}
+.c3{background:linear-gradient(145deg,#8ce99a,#40c057)}.c4{background:linear-gradient(145deg,#ffe066,#fab005);color:#4a3b00}
+.c5{background:linear-gradient(145deg,#b197fc,#845ef7)}.c6{background:linear-gradient(145deg,#ffc078,#ff922b)}
+h2{font-family:'Mitr',sans-serif;font-weight:500;margin:0 0 10px;font-size:22px}
+.lab{display:flex;flex-wrap:wrap;gap:18px}
+.stage{flex:2 1 460px;min-width:0}.ctl{flex:1 1 300px}
+svg{width:100%;height:auto;border-radius:20px;background:#fdfcff;background-image:radial-gradient(#e5dbff 1.5px,transparent 1.5px);background-size:22px 22px;border:3px solid #e5dbff}
+.sl{margin:7px 0}.sl label{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
+.sl.b label{color:#1971c2}.sl.p label{color:#c2255c}
+.sl.off{opacity:.55}
+input[type=range]{width:100%;height:12px;border-radius:8px;appearance:none;-webkit-appearance:none;outline:0;box-shadow:inset 0 2px 3px rgba(0,0,0,.2)}
+.b input{background:#a5d8ff}.p input{background:#ffc9de}
+input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffd43b 45%,#f59f00);border:2px solid #fff;box-shadow:0 4px 0 #e67700;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#ffd43b;border:2px solid #fff;box-shadow:0 4px 0 #e67700;cursor:pointer}
+input:disabled::-webkit-slider-thumb{background:#ced4da;box-shadow:0 4px 0 #adb5bd}
+.modes{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.mb.on{outline:4px solid #fff3bf;filter:brightness(1.08)}
+.pill{display:inline-block;background:#e7f5ff;color:#1864ab;border-radius:12px;padding:3px 9px;margin:2px;font-size:13px;font-weight:700}
+#status{border-radius:18px;padding:12px 14px;font-weight:700;margin-top:10px;font-size:15px;line-height:1.5}
+.ok{background:#d3f9d8;color:#2b8a3e;box-shadow:0 5px 0 #8ce99a}.no{background:#ffe3e3;color:#c92a2a;box-shadow:0 5px 0 #ffa8a8}
+.row{display:grid;grid-template-columns:70px 1fr 28px;gap:8px;align-items:center;margin:6px 0;font-size:14px;font-weight:700}
+.row .bars div{height:10px;border-radius:6px;margin:2px 0;transition:width .15s}
+.row.key{background:#fff9db;border-radius:12px;padding:3px 6px;margin:6px -6px}
+.cf{position:fixed;font-size:26px;pointer-events:none;animation:fall 1.7s ease-out forwards;z-index:9}
+@keyframes fall{from{transform:translate(0,0) scale(.5);opacity:1}to{transform:translate(var(--x),var(--y)) rotate(360deg) scale(1.3);opacity:0}}
+.q{border-radius:20px;background:#f8f5ff;padding:14px;margin-bottom:14px;box-shadow:0 5px 0 #e5dbff}
+.q .t{font-weight:700;margin-bottom:8px;line-height:1.5}.q .n{display:inline-block;background:var(--purple);color:#fff;border-radius:50%;width:30px;height:30px;text-align:center;line-height:30px;margin-right:6px}
+.o{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;margin:6px 0;padding:9px 12px;border-radius:14px;border:2px solid #d0bfff;background:#fff;cursor:pointer;box-shadow:0 4px 0 #d0bfff;color:var(--ink)}
+.o:hover{background:#fff9db}.o.right{background:#d3f9d8;border-color:#40c057;box-shadow:0 4px 0 #8ce99a}.o.wrong{background:#ffe3e3;border-color:#fa5252;box-shadow:0 4px 0 #ffa8a8}
+.ex{display:none;margin-top:8px;background:#fff9db;border-radius:12px;padding:8px 12px;font-size:14px;line-height:1.5}
+.bar{height:16px;background:#e5dbff;border-radius:10px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffa8d1,#ff6fae,#ffd43b);transition:.3s}
+#res{text-align:center;font-size:20px;font-weight:700;margin:10px 0}
+body{background:linear-gradient(160deg,#e3f2ff,#ffe8f3 45%,#fff6cf 75%,#e6fbe8)}
+.btn{background:#b8a1ff;box-shadow:0 6px 0 #9a82e6,inset 0 3px 0 rgba(255,255,255,.45);text-shadow:0 1px 0 rgba(0,0,0,.12)}.btn:active{box-shadow:0 1px 0 #9a82e6}
+.btn.pk{background:#ff9ec4;box-shadow:0 6px 0 #e97fa8,inset 0 3px 0 rgba(255,255,255,.45)}.btn.pk:active{box-shadow:0 1px 0 #e97fa8}
+.btn.gn{background:#8fe3a8;color:#1f6b3a;text-shadow:none;box-shadow:0 6px 0 #6cc78a,inset 0 3px 0 rgba(255,255,255,.45)}.btn.gn:active{box-shadow:0 1px 0 #6cc78a}
+.btn.yl{background:#ffe38a;color:#6b5200;text-shadow:none;box-shadow:0 6px 0 #f2c94c,inset 0 3px 0 rgba(255,255,255,.45)}.btn.yl:active{box-shadow:0 1px 0 #f2c94c}
+.tab{background:#fff;color:#8a6ee0;box-shadow:0 6px 0 #e5dbff}.tab.on{background:#b8a1ff;color:#fff;box-shadow:0 6px 0 #9a82e6}
+.c1{background:linear-gradient(145deg,#d0ebff,#9fd3ff);color:#1b4a73}.c2{background:linear-gradient(145deg,#ffdeeb,#ffb8d6);color:#7a2850}.c3{background:linear-gradient(145deg,#d3f9d8,#a4ecb5);color:#1f5f33}.c4{background:linear-gradient(145deg,#fff3bf,#ffe27a);color:#5c4a00}.c5{background:linear-gradient(145deg,#e5dbff,#cbb8ff);color:#3d2a80}.c6{background:linear-gradient(145deg,#ffe8cc,#ffcf9f);color:#7a4310}
+.mini{box-shadow:0 7px 0 rgba(0,0,0,.08),inset 0 3px 0 rgba(255,255,255,.6)}
+.card{box-shadow:0 8px 0 #e5dbff,0 14px 24px rgba(160,130,255,.18)}
+.gl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.gl div{background:#fff7fb;border-radius:16px;padding:10px 12px;font-size:14px;line-height:1.5;box-shadow:0 4px 0 #ffd6e8}.gl div:nth-child(even){background:#f1f8ff;box-shadow:0 4px 0 #cfe6ff}.gl b{display:block;color:#c2255c}.gl div:nth-child(even) b{color:#1971c2}
+.mean{margin-top:10px;background:#fff9db;border-radius:18px;padding:10px 14px;font-size:14px;line-height:1.6;box-shadow:0 5px 0 #ffec99}
+.mascot{position:fixed;right:8px;bottom:6px;z-index:5;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none}
+.mascot svg{width:96px;height:auto;background:none;border:0;border-radius:0;animation:bob 2.2s ease-in-out infinite;filter:drop-shadow(0 6px 5px rgba(120,90,200,.25))}
+.bub{background:#fff;border-radius:16px;padding:8px 12px;font-size:13px;font-weight:700;max-width:190px;margin-right:6px;box-shadow:0 5px 0 #e5dbff;position:relative}
+.bub:after{content:'';position:absolute;bottom:-9px;right:34px;border:9px solid transparent;border-top-color:#fff;border-bottom:0}
+@keyframes bob{50%{transform:translateY(-8px)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.eyes{transform-origin:60px 76px;animation:blink 4s infinite}
+@media(max-width:560px){.mascot svg{width:70px}.bub{font-size:12px;max-width:140px}}
+.wrap{position:relative;z-index:1}
+body{background:linear-gradient(135deg,#ffe4ef 0%,#e2f1ff 50%,#fff6cf 100%) fixed}
+.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.bg i{position:absolute;opacity:.5;animation:fl 8s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-14px) rotate(8deg)}}
+.hs{display:flex;justify-content:center;align-items:flex-end;gap:14px;height:62px;margin-top:4px}
+.hs span{display:block;filter:drop-shadow(0 6px 4px rgba(90,60,160,.3));animation:bob 2.6s ease-in-out infinite}
+.hs span:nth-child(2n){animation-delay:.4s}.hs span:nth-child(3n){animation-delay:.8s}
+.hs i{display:block}
+h1{font-size:clamp(28px,6vw,52px);color:#7c4dff;letter-spacing:1px;margin:2px 0 8px;text-shadow:0 2px 0 #fff,2px 4px 0 #fff,0 5px 0 #b197fc,0 8px 0 #9775fa,0 14px 14px rgba(80,40,160,.3)}
+.sub{display:table;margin:6px auto 14px;background:#fff;border-radius:22px;padding:6px 28px;font-weight:700;color:#5f3dc4;box-shadow:0 5px 0 #e5dbff}
+.obj{background:#fff;border:3px dashed #8ec5ff;border-radius:26px;padding:12px 18px;font-size:15px;margin:0 0 16px;box-shadow:0 5px 0 #d0e6ff;line-height:1.6}
+.tab{color:#fff}
+.tab[data-p=learn]{background:#8b6cf0;box-shadow:0 6px 0 #6a4bd0}
+.tab[data-p=lab]{background:#4c9bf5;box-shadow:0 6px 0 #2f78d1}
+.tab[data-p=quiz]{background:#34c37a;box-shadow:0 6px 0 #1f9a5b}
+.tab.on{outline:4px solid #fff;transform:translateY(2px)}
+.tab[data-p=game]{background:#ff922b;box-shadow:0 6px 0 #d9730d}
+.ft{text-align:center;font-weight:700;font-size:15px;color:#5f3dc4;background:#fff;border-radius:22px;padding:10px 18px;margin:6px auto 120px;max-width:560px;box-shadow:0 5px 0 #e5dbff}
+.shop{background:linear-gradient(180deg,#fff,#f6f0ff 60%,#ffeef6)}
+.gh{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-weight:700;margin:8px 0}.gh span{background:#fff;border-radius:14px;padding:4px 12px;box-shadow:0 4px 0 #e5dbff}
+.gmb.on{outline:4px solid #fff3bf;filter:brightness(1.08)}
+.arena{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}.shelf{flex:2 1 380px;min-width:0}
+.cauw{flex:1 1 230px;max-width:280px;margin:0 auto;padding-top:50px;position:sticky;top:8px;text-align:center}
+#cau{transition:.15s}#cau svg{transform:scale(var(--gs,1));transform-origin:50% 100%;transition:transform .6s cubic-bezier(.3,1.7,.5,1);max-width:250px;background:none;border:0;border-radius:0;filter:drop-shadow(0 14px 8px rgba(60,30,120,.35))}
+#cau.hot{transform:scale(1.08);filter:drop-shadow(0 0 16px #ffd43b)}#cau.eat{animation:eat .5s}#cau.boom{animation:shk .12s 14}
+@keyframes eat{30%{transform:scale(1.14,.86)}60%{transform:scale(.94,1.08)}}@keyframes shk{50%{transform:translateX(7px) rotate(2deg)}}
+.cbb{animation:rb 2.2s ease-in infinite}.cbb:nth-child(2){animation-delay:.7s}.cbb:nth-child(3){animation-delay:1.4s}@keyframes rb{from{transform:translateY(8px);opacity:.9}to{transform:translateY(-22px);opacity:0}}
+.cspeech{background:#fff;border-radius:16px;padding:6px 10px;font-weight:700;font-size:13px;box-shadow:0 4px 0 #e5dbff;margin-top:4px}
+.bin{display:none;align-items:center;justify-content:center;height:64px;border:4px dashed #adb5bd;border-radius:22px;margin-top:10px;font-weight:700;color:#868e96;background:#f8f9fa}.bin.hot{border-color:#fa5252;background:#ffe3e3;color:#c92a2a}
+.qh{display:inline-block;background:#fff3bf;color:#7a5b00;border-radius:14px;padding:3px 12px;font-weight:700;margin-bottom:4px;box-shadow:0 4px 0 #ffec99}
+.gcard{background:#f8f5ff;border-radius:22px;padding:10px;text-align:center;font-weight:700;box-shadow:0 6px 0 #e5dbff;margin:8px auto;max-width:380px;line-height:1.5}.gcard.big{font-size:19px;max-width:none}
+.gcard svg{max-width:210px;display:block;margin:0 auto 6px}.gcard small{display:block}
+.gopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:10px 0}
+.dg{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}.dg.lift{opacity:.3}
+.co{border:3px solid #fff;background:linear-gradient(#fff,#efe6ff);border-radius:26px;padding:4px;box-shadow:0 9px 0 #cbb8ff,0 16px 18px rgba(100,60,200,.22);font-family:inherit;transform:perspective(500px) rotateX(7deg);transition:.15s}.co:hover{transform:perspective(500px) rotateX(0) translateY(-5px)}
+.co svg{display:block}.co.right{background:linear-gradient(#e6ffe9,#b2f2bb)}.co.wrong{background:linear-gradient(#fff0f0,#ffc9c9)}
+.bot{display:inline-flex;flex-direction:column;align-items:center;width:98px;padding:10px 6px 12px;border-radius:30px 30px 42px 42px;background:linear-gradient(160deg,#fff7c2,#ffd43b);border:3px solid #fff;box-shadow:0 9px 0 #f2b705,0 16px 16px rgba(180,120,0,.25),inset 0 4px 0 rgba(255,255,255,.7);font-family:inherit;transform:perspective(500px) rotateX(6deg)}.bot span{font-size:40px;line-height:1}.bot b{font-size:24px;color:#6b5200}
+.pair{display:block;padding:8px;border-radius:26px;background:linear-gradient(#fff,#efe6ff);box-shadow:0 9px 0 #cbb8ff,0 16px 18px rgba(100,60,200,.2)}
+.gp.ghost{position:fixed;z-index:50;pointer-events:none;margin:0;transform:rotate(5deg) scale(1.06);opacity:.95;filter:drop-shadow(0 16px 10px rgba(60,30,120,.4))}
+.gr2{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:10px 0}
+.pop{font-size:84px;line-height:1.2;animation:popin .9s cubic-bezier(.2,1.6,.4,1)}@keyframes popin{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+.gp.hv{outline:5px solid #ffd43b;outline-offset:3px}
+#hcur{position:fixed;left:0;top:0;width:40px;height:40px;border:4px solid #ff6fae;border-radius:50%;background:rgba(255,212,59,.45);z-index:60;pointer-events:none;display:none}#hcur.pn{background:#ff6fae}
+#hvw{position:fixed;left:8px;bottom:8px;width:150px;z-index:15;border-radius:14px;overflow:hidden;display:none;border:3px solid #fff;box-shadow:0 5px 0 #d0bfff;background:#000}#hvw video,#hvw canvas{width:100%;display:block;transform:scaleX(-1)}#hvw canvas{position:absolute;left:0;top:0;height:100%}
+#crk path{opacity:0;transition:opacity .4s}#liq{transition:fill .6s}
+@media(max-width:560px){.cauw{order:-1;max-width:150px;z-index:3;padding-top:22px}#cau svg{max-width:140px}.cauw .cspeech{display:none}}
+#lg{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffe4ef,#e2f1ff 50%,#fff6cf);padding:16px;overflow:auto}
+.lgc{background:#fff;border-radius:30px;padding:22px;max-width:380px;width:100%;text-align:center;box-shadow:0 10px 0 #d0bfff,0 20px 30px rgba(132,94,247,.25);margin:auto}
+.lgc h2{font-size:21px;color:#7c4dff;margin:4px 0}.lgc p{margin:0;font-size:14px;font-weight:700;color:#5f3dc4}.lgl{font-size:46px}
+.lgc input,.lgc select{display:block;width:100%;font-family:inherit;font-size:16px;padding:10px 14px;margin:8px 0;border:3px solid #e5dbff;border-radius:16px;color:var(--ink);background:#fbf9ff}
+.lgt{display:flex;gap:8px;justify-content:center;margin:12px 0}.lgt .on{outline:4px solid #fff3bf}
+#lge{color:#c92a2a;font-weight:700;min-height:22px;margin:6px 0}.lgc small{color:#868e96}
+.tab[data-p=tch]{background:#e64980;box-shadow:0 6px 0 #a61e4d}
+.tt{width:100%;border-collapse:collapse;font-size:14px;text-align:center;margin:8px 0}.tt th{background:#e5dbff;padding:7px 8px;white-space:nowrap}.tt td{padding:6px 8px;border-bottom:1px solid #eee4ff}.tt tr.tr{cursor:pointer}.tt tr.tr:hover{background:#fff9db}
+#res small{display:block;font-size:15px;margin-top:4px}
+button,.o,.gp,select{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#hvw{max-width:34vw}
+#ub{display:none;flex-wrap:wrap;gap:8px;justify-content:flex-end;align-items:center;margin-bottom:6px;font-size:14px;font-weight:700}#ub span{background:#fff;border-radius:14px;padding:5px 12px;box-shadow:0 4px 0 #e5dbff}
+</style>
+</head>
+<body>
+<div id="lg"><div class="lgc"><div class="lgl">🔺⚗️</div><h2>สามเหลี่ยมเท่ากันทุกประการ ≅</h2><p>สื่อการเรียนรู้คณิตศาสตร์ โดย คุณครูสุจิรา สังข์แก้ว</p>
+<div class="lgt"><button class="btn sm on" id="lgt1">เข้าสู่ระบบ</button><button class="btn pk sm" id="lgt2">สมัครสมาชิก</button></div>
+<div id="lgi"><input id="lgu" placeholder="ชื่อผู้ใช้" autocomplete="username"><input id="lgp" type="password" placeholder="รหัสผ่าน" autocomplete="current-password"><button class="btn gn" id="lgb1">🚪 เข้าสู่ระบบ</button></div>
+<div id="lgr" style="display:none"><input id="rgn" placeholder="ชื่อ-นามสกุล"><input id="rgc" placeholder="ชั้น/ห้อง เช่น ม.2/1"><input id="rgu" placeholder="ตั้งชื่อผู้ใช้ (a-z 0-9)" autocomplete="username"><input id="rgp" type="password" placeholder="ตั้งรหัสผ่าน (4 ตัวขึ้นไป)" autocomplete="new-password"><select id="rgr"><option value="s">👧 นักเรียน</option><option value="t">👩‍🏫 ครู (ดูข้อมูลทุกคน)</option></select><input id="rgt" placeholder="รหัสครู" style="display:none"><button class="btn pk" id="lgb2">✨ สมัครและเข้าใช้งาน</button></div>
+<div id="lge"></div><small>ข้อมูลบัญชีและการใช้งานเก็บไว้ในเครื่อง/เบราว์เซอร์นี้</small></div></div>
+<div class="wrap">
+<div class="bg"><i style="left:5%;top:11%;width:80px;height:70px;background:#ff9ec4;clip-path:polygon(50% 0,0 100%,100% 100%);transform:rotate(12deg)"></i><i style="right:8%;top:9%;width:60px;height:60px;background:#ffe066;border-radius:50%;animation-delay:1s"></i><i style="left:3%;top:55%;width:56px;height:56px;background:#b197fc;border-radius:50%;animation-delay:2s"></i><i style="left:12%;bottom:6%;width:60px;height:60px;background:#ffc9a0;border-radius:14px;animation-delay:.5s"></i><i style="right:3%;top:52%;width:58px;height:58px;background:#8ec5ff;border-radius:14px;animation-delay:1.5s"></i><i style="right:7%;bottom:8%;width:80px;height:70px;background:#8fe3a8;clip-path:polygon(50% 0,0 100%,100% 100%);animation-delay:2.5s"></i></div>
+<div id="ub"><span id="ubn"></span><button class="btn sm gn" id="ubx">📥 ดาวน์โหลด Excel</button><button class="btn sm pk" id="ubo">🚪 ออกจากระบบ</button></div>
+<div class="hs"><span><i style="width:26px;height:24px;background:linear-gradient(#ff8fb3,#e0357d);clip-path:polygon(50% 0,0 100%,100% 100%)"></i></span><span><i style="width:32px;height:32px;background:linear-gradient(135deg,#8ec5ff,#2b7de0);border-radius:7px;transform:rotate(45deg)"></i></span><span><i style="width:56px;height:50px;background:linear-gradient(#ffe0c2,#f5b98a);clip-path:polygon(50% 0,0 100%,100% 100%)"></i></span><span><i style="width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd2a8,#ff8a3d 55%,#e8590c)"></i></span><span><i style="width:42px;height:42px;background:linear-gradient(135deg,#ffe97a,#fbbf24);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)"></i></span></div>
+<h1>สามเหลี่ยมเท่ากันทุกประการ ≅</h1>
+<p class="sub">สื่อโต้ตอบ คณิตศาสตร์ ม.2</p>
+<div class="obj">🎯 <b>วัตถุประสงค์:</b> นักเรียนสามารถเข้าใจและใช้สมบัติของรูปสามเหลี่ยมที่เท่ากันทุกประการในการแก้ปัญหาคณิตศาสตร์และปัญหาในชีวิตจริง</div>
+<div class="tabs">
+<button class="btn tab on" data-p="learn">📖 เรียนรู้</button>
+<button class="btn tab" data-p="lab">🧪 ห้องทดลอง</button>
+<button class="btn tab" data-p="quiz">📝 แบบทดสอบ 10 ข้อ ⏱</button>
+<button class="btn tab" data-p="game">⚗️ เกมปรุงยา</button>
+<button class="btn tab" data-p="tch" id="tabT" style="display:none">📊 คะแนนนักเรียน</button>
+</div>
+
+<section id="learn" class="pane on">
+<div class="card">
+<h2>รูปสามเหลี่ยมเท่ากันทุกประการคืออะไร?</h2>
+<p>รูปสามเหลี่ยมสองรูปที่ <b>เท่ากันทุกประการ</b> คือรูปที่ซ้อนทับกันได้สนิท (เลื่อน หมุน หรือพลิกได้) โดย <b>ด้านที่สมนัยกันยาวเท่ากัน</b> และ <b>มุมที่สมนัยกันเท่ากัน</b> ทุกคู่ เขียนแทนด้วยสัญลักษณ์ <b>ΔABC ≅ ΔDEF</b> (A↔D, B↔E, C↔F)</p>
+</div>
+<div class="card"><h2>🔍 คำสำคัญและความหมาย</h2><div class="gl"><div><b>≅ เท่ากันทุกประการ</b>รูปสองรูปมีขนาดและรูปร่างเหมือนกันทุกอย่าง ซ้อนทับกันได้สนิท</div><div><b>สมนัย</b>ส่วนที่อยู่ตำแหน่งตรงกันตามลำดับจุดยอด เช่น ΔABC ≅ ΔDEF แล้ว AB↔DE และ ∠B↔∠E</div><div><b>มุมระหว่างสองด้าน</b>มุมที่เกิดจากสองด้านนั้นมาพบกัน เช่น ∠B อยู่ระหว่าง AB กับ BC</div><div><b>ด้านตรงข้ามมุม</b>ด้านที่ไม่ได้เป็นแขนของมุมนั้น เช่น BC ตรงข้าม ∠A</div><div><b>ด้านร่วม</b>ด้านเดียวกันที่เป็นของสามเหลี่ยมสองรูป นับเป็นด้านที่เท่ากันได้ (AC = AC)</div><div><b>ผลรวมมุมภายใน 180°</b>ถ้ารู้สองมุมของสามเหลี่ยม จะหามุมที่สามได้เสมอ</div></div><h2 style="margin-top:16px">⭐ สมบัติของการเท่ากันทุกประการ</h2><div class="gl"><div><b>สมบัติสะท้อน</b>ΔABC ≅ ΔABC (เท่ากับตัวเอง)</div><div><b>สมบัติสมมาตร</b>ถ้า ΔABC ≅ ΔDEF แล้ว ΔDEF ≅ ΔABC</div><div><b>สมบัติถ่ายทอด</b>ถ้า ΔABC ≅ ΔDEF และ ΔDEF ≅ ΔGHI แล้ว ΔABC ≅ ΔGHI</div><div><b>ส่วนที่สมนัยเท่ากัน</b>เมื่อสามเหลี่ยมเท่ากันทุกประการ ด้านสมนัยยาวเท่ากัน และมุมสมนัยเท่ากันทุกคู่</div></div></div>
+<div class="grid" style="margin-bottom:22px">
+<div class="mini c1"><h3>① ด.ด.ด. (SSS)</h3><p>ด้านสามด้านเท่ากันทีละคู่ → เท่ากันทุกประการ</p></div>
+<div class="mini c2"><h3>② ด.ม.ด. (SAS)</h3><p>ด้าน-มุม-ด้าน โดยมุมต้อง <b>อยู่ระหว่าง</b> สองด้านนั้น</p></div>
+<div class="mini c3"><h3>③ ม.ด.ม. (ASA)</h3><p>มุม-ด้าน-มุม โดยด้านต้อง <b>อยู่ระหว่าง</b> สองมุมนั้น</p></div>
+<div class="mini c4"><h3>④ ม.ม.ด. (AAS)</h3><p>มุมสองมุมเท่ากัน และด้านที่ <b>ไม่อยู่ระหว่าง</b> มุมนั้นเท่ากัน</p></div>
+<div class="mini c5"><h3>⑤ ฉาก-ด้าน-ด้าน</h3><p>สามเหลี่ยมมุมฉาก: ด้านตรงข้ามมุมฉากและอีกหนึ่งด้านเท่ากัน</p></div>
+<div class="mini c6"><h3>⚠️ ระวัง!</h3><p><b>ม.ม.ม.</b> (มุมสามมุม) และ <b>ด.ด.ม.</b> (มุมไม่ได้อยู่ระหว่างด้าน) ยังสรุปไม่ได้ว่าเท่ากันทุกประการ</p></div>
+</div>
+<div class="card">
+<h2>🏠 ใช้ในชีวิตจริง</h2>
+<p>🔹 <b>โครงหลังคา/สะพานเหล็ก:</b> ช่างตัดเหล็กให้ยาวเท่ากันสามด้าน (ด.ด.ด.) ทุกโครงจึงเหมือนกันเป๊ะ<br>🔹 <b>ขาตั้งกล้อง:</b> สามเหลี่ยมแข็งแรงไม่ล้ม เพราะรูปร่างถูกกำหนดด้วยด้านทั้งสาม<br>🔹 <b>การวัดระยะข้ามแม่น้ำ:</b> สร้างสามเหลี่ยมที่เท่ากันบนฝั่งเรา แล้วใช้ด้านที่สมนัยกันหาระยะที่วัดตรงไม่ได้</p>
+<button class="btn pk" onclick="go('lab')">ไปลองทดลองเลย →</button>
+</div>
+</section>
+
+<section id="lab" class="pane">
+<div class="card"><div class="lab">
+<div class="stage">
+<h2>🔵 ΔABC (ฟ้า) และ 🌸 ΔDEF (ชมพู)</h2>
+<svg id="svg" viewBox="0 0 800 420"></svg>
+<div style="margin:12px 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+<button class="btn gn" id="play">▶ เลื่อนทับ</button>
+<button class="btn yl" id="reset">↺ รีเซ็ต</button>
+<label style="font-weight:700"><input type="checkbox" id="mir"> 🪞 พลิกเป็นภาพสะท้อน</label>
+</div>
+<div id="status"></div><div id="mean" class="mean"></div><div class="mean" style="background:#e7f5ff;box-shadow:0 5px 0 #bfe0ff">🔎 <b>วิธีอ่านรูป:</b> ขีดสั้นๆ บนด้านที่จำนวนเท่ากัน = ด้านที่สมนัยกัน · ส่วนโค้งที่มุมจำนวนเท่ากัน = มุมที่สมนัยกัน</div>
+</div>
+<div class="ctl">
+<h2>🎚️ ปรับค่า</h2>
+<div id="c1"></div>
+<div id="ang1" style="margin:6px 0"></div>
+<button class="btn sm" onclick="preset(3,4,5)">3-4-5</button>
+<button class="btn sm" onclick="preset(5,5,5)">5-5-5</button>
+<button class="btn sm" onclick="preset(4,7,9)">4-7-9</button>
+<hr style="border:1px dashed #d0bfff;margin:12px 0">
+<b>เลือกเงื่อนไขของ ΔDEF:</b>
+<div class="modes" id="modes"></div>
+<div id="c2"></div>
+<button class="btn pk sm" id="copy">✨ ตั้งให้เท่ากับ ΔABC</button>
+</div>
+</div></div>
+<div class="card"><h2>📊 กราฟเปรียบเทียบด้าน/มุมที่สมนัยกัน</h2>
+<div style="font-size:13px;margin-bottom:6px"><span class="pill">แท่งฟ้า = ΔABC</span><span class="pill" style="background:#ffdeeb;color:#a61e4d">แท่งชมพู = ΔDEF</span><span class="pill" style="background:#fff3bf;color:#7a5b00">แถบเหลือง = คู่ที่ใช้ตัดสิน</span></div>
+<div id="chart"></div></div>
+</section>
+
+<section id="quiz" class="pane">
+<div class="card">
+<h2>📝 แบบทดสอบท้ายกิจกรรม (จับเวลา)</h2>
+<div id="qbox"></div>
+</div>
+</section>
+<section id="tch" class="pane">
+<div class="card">
+<h2>📊 คะแนนนักเรียน (สำหรับครู)</h2>
+<div class="gh" id="tsum"></div>
+<input id="tq" placeholder="🔍 ค้นหาชื่อ / ชั้น / ชื่อผู้ใช้" style="width:100%;font-family:inherit;font-size:15px;padding:9px 14px;margin:6px 0 10px;border:3px solid #e5dbff;border-radius:16px">
+<small>แตะที่แถวนักเรียนเพื่อดูรายละเอียดรายข้อ</small>
+<div style="overflow-x:auto;margin:8px 0" id="ttab"></div>
+<button class="btn gn" onclick="LG.dl()">📥 ดาวน์โหลด Excel</button> <button class="btn yl" onclick="tchRender()">🔄 รีเฟรช</button>
+</div>
+</section>
+<section id="game" class="pane">
+<div class="card shop">
+<h2>⚗️ ร้านปรุงยาสามเหลี่ยม</h2>
+<p style="margin:0 0 8px;font-size:14px">ปรุงยา 1 หม้อ = 5 ขวด <b>ลากวัตถุดิบที่เป็นคำตอบลงหม้อ</b> (หรือแตะเพื่อใส่) ตอบถูกยิ่งมาก ของวิเศษที่ได้ยิ่งสุดยอด!</p>
+<div class="modes" id="gm" style="justify-content:center"><button class="btn sm gp gmb" data-m="rec">🧪 ตำรับยา</button><button class="btn pk sm gp gmb" data-m="rush">🌿 คัดแยกสมุนไพร</button><button class="btn yl sm gp gmb" data-m="sec">🔢 เติมสารลับ</button></div>
+<div class="gh"><span id="slots">🫧 🫧 🫧 🫧 🫧</span><span>⭐ <b id="gs">0</b></span><span>🔥 คอมโบ <b id="gc">0</b></span><span>⏱ <b id="gt">–</b> วิ</span></div><div class="bar" style="margin:2px 0 8px"><i id="tmb" style="width:100%;background:#51cf66"></i></div>
+<div class="arena"><div class="shelf" id="gboard"></div>
+<div class="cauw"><div id="cau"><svg viewBox="0 0 240 210"><defs><radialGradient id="cgr" cx=".35" cy=".3" r=".95"><stop offset="0" stop-color="#9d8ad6"/><stop offset=".55" stop-color="#5a3fa8"/><stop offset="1" stop-color="#2c1d6b"/></radialGradient></defs><ellipse cx="120" cy="200" rx="84" ry="8" fill="rgba(0,0,0,.18)"/><ellipse cx="64" cy="188" rx="17" ry="11" fill="#2c1d6b"/><ellipse cx="176" cy="188" rx="17" ry="11" fill="#2c1d6b"/><ellipse cx="120" cy="128" rx="102" ry="68" fill="url(#cgr)"/><ellipse cx="62" cy="112" rx="12" ry="30" transform="rotate(25 62 112)" fill="#fff" opacity=".28"/><ellipse cx="120" cy="66" rx="90" ry="25" fill="#3a2886"/><ellipse id="liq" cx="120" cy="68" rx="77" ry="18" fill="#e599f7"/><g fill="#fff" opacity=".8"><circle class="cbb" cx="88" cy="66" r="6"/><circle class="cbb" cx="124" cy="62" r="8"/><circle class="cbb" cx="156" cy="68" r="5"/></g><ellipse cx="120" cy="66" rx="90" ry="25" fill="none" stroke="#8a6cf0" stroke-width="7"/><g id="crk" fill="none" stroke="#150c38" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M160 98 L172 112 L158 122 L174 138"/><path d="M70 150 L84 158 L76 170 L92 182"/><path d="M118 170 L127 156 L115 148 L129 136"/><path d="M52 112 L68 118 L58 132"/><path d="M178 162 L162 166 L170 180"/></g><ellipse cx="92" cy="118" rx="8" ry="10" fill="#fff"/><ellipse cx="148" cy="118" rx="8" ry="10" fill="#fff"/><circle cx="94" cy="120" r="5" fill="#3b2f63"/><circle cx="146" cy="120" r="5" fill="#3b2f63"/><circle cx="72" cy="140" r="9" fill="#ff9ec4" opacity=".7"/><circle cx="168" cy="140" r="9" fill="#ff9ec4" opacity=".7"/><path id="cm" d="M98 134 Q120 160 142 134 Z" fill="#ff7aa8" stroke="#fff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<div class="cspeech" id="cs">หิวแล้ว! ป้อนคำตอบให้ฉันหน่อย 🍲</div><div class="bin" id="bin">🗑️ ถังทิ้ง (≇)</div></div></div>
+<div id="bag" class="mean" style="font-size:14px">🎒 คลังสมบัติ: (ยังว่าง)</div>
+<div style="margin-top:12px;text-align:center"><button class="btn gn sm" id="hb">🖐️ เปิดกล้องเล่นด้วยมือ (MediaPipe)</button><div id="hs2" class="mean" style="font-size:13px">💡 เล่นด้วยเมาส์/นิ้วสัมผัสได้ หรือเปิดกล้องแล้วใช้นิ้วชี้เป็นเมาส์: “จีบ” นิ้วโป้งกับนิ้วชี้เพื่อหยิบขวด พาไปปล่อยลงหม้อ หรือชี้ค้าง ~1.5 วินาทีเพื่อใส่</div></div>
+</div>
+<div id="hcur"></div><div id="hvw"><video id="cam" playsinline muted></video><canvas id="ov"></canvas></div>
+</section>
+
+<footer class="ft">📐 สื่อการเรียนรู้คณิตศาสตร์ โดย คุณครูสุจิรา สังข์แก้ว</footer>
+</div>
+
+<div class="mascot"><div class="bub" id="bub">สวัสดี!</div><svg viewBox="0 0 120 135" aria-hidden="true"><defs><radialGradient id="mg" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fffbd0"/><stop offset=".6" stop-color="#ffe58a"/><stop offset="1" stop-color="#ffc9a0"/></radialGradient></defs><ellipse cx="60" cy="128" rx="36" ry="5" fill="rgba(0,0,0,.12)"/><ellipse cx="44" cy="119" rx="10" ry="6" fill="#ffb3d1"/><ellipse cx="76" cy="119" rx="10" ry="6" fill="#ffb3d1"/><polygon points="60,22 16,106 104,106" transform="translate(0,7)" fill="#f5c07a" stroke="#f5c07a" stroke-width="16" stroke-linejoin="round"/><polygon points="60,22 16,106 104,106" fill="url(#mg)" stroke="url(#mg)" stroke-width="16" stroke-linejoin="round"/><ellipse cx="44" cy="54" rx="6" ry="14" transform="rotate(-25 44 54)" fill="#fff" opacity=".6"/><circle cx="14" cy="92" r="7" fill="#ffe9a8"/><circle cx="106" cy="92" r="7" fill="#ffe9a8"/><ellipse cx="52" cy="10" rx="9" ry="5" transform="rotate(-20 52 10)" fill="#ff9ec4"/><ellipse cx="68" cy="10" rx="9" ry="5" transform="rotate(20 68 10)" fill="#ff9ec4"/><circle cx="60" cy="11" r="4" fill="#ff6fae"/><g class="eyes"><ellipse cx="48" cy="76" rx="5" ry="6.5" fill="#3b2f63"/><ellipse cx="72" cy="76" rx="5" ry="6.5" fill="#3b2f63"/><circle cx="46.5" cy="74" r="2" fill="#fff"/><circle cx="70.5" cy="74" r="2" fill="#fff"/></g><circle cx="38" cy="87" r="6" fill="#ff9ec4" opacity=".65"/><circle cx="82" cy="87" r="6" fill="#ff9ec4" opacity=".65"/><path id="mouth" d="M50 85 Q60 100 70 85 Z" fill="#ff7aa8" stroke="#3b2f63" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+<script>
+const $=id=>document.getElementById(id),R=Math.PI/180,S=20;
+const MODES={
+SSS:{n:'ด.ด.ด.',free:['d','e','f'],m:[['a','d'],['b','e'],['c','f']]},
+SAS:{n:'ด.ม.ด.',free:['d','e','F'],m:[['a','d'],['b','e'],['C','F']]},
+ASA:{n:'ม.ด.ม.',free:['D','E','f'],m:[['A','D'],['B','E'],['c','f']]},
+AAS:{n:'ม.ม.ด.',free:['D','E','d'],m:[['A','D'],['B','E'],['a','d']]}};
+const SIDE=new Set('abcdef'.split(''));
+let cur='SSS',v1=null,v2=null,p=0,anim=null;
+function mk(id,lab,min,max,step,val,cls){return `<div class="sl ${cls}" id="w_${id}"><label>${lab}<b id="o_${id}"></b></label><input type="range" id="s_${id}" min="${min}" max="${max}" step="${step}" value="${val}"></div>`}
+$('c1').innerHTML=mk('a','ด้าน a (BC)',3,10,.5,5,'b')+mk('b','ด้าน b (CA)',3,10,.5,6,'b')+mk('c','ด้าน c (AB)',3,10,.5,7,'b');
+$('c2').innerHTML=mk('d','ด้าน d (EF)',3,10,.5,5,'p')+mk('e','ด้าน e (FD)',3,10,.5,6,'p')+mk('f','ด้าน f (DE)',3,10,.5,7,'p')+mk('D','มุม D',10,150,.5,50,'p')+mk('E','มุม E',10,150,.5,60,'p')+mk('F','มุม F',10,150,.5,70,'p');
+$('modes').innerHTML=Object.keys(MODES).map(k=>`<button class="btn sm mb ${k=='SSS'?'on':''}" data-m="${k}">${MODES[k].n}</button>`).join('');
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.p));
+function go(id){window.LG&&LG.log('tab',{tab:id});say(({learn:'สวัสดี! พี่คือน้องสามเหลี่ยม 🔺 มาเรียนด้วยกันนะ',lab:'ลองขยับ slider แล้วกดเลื่อนทับดูสิ!',quiz:'สู้ๆ นะ ทำได้แน่นอน ⭐',game:'มาปรุงยาด้วยสามเหลี่ยมกัน! ⚗️',tch:'ดูคะแนนนักเรียนได้เลยค่ะคุณครู 📊'})[id],1);document.querySelectorAll('.pane').forEach(x=>x.classList.toggle('on',x.id==id));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.dataset.p==id))}
+document.querySelectorAll('.mb').forEach(b=>b.onclick=()=>{cur=b.dataset.m;document.querySelectorAll('.mb').forEach(x=>x.classList.toggle('on',x==b));p=0;update()});
+document.querySelectorAll('input[type=range]').forEach(i=>i.oninput=update);
+$('mir').onchange=()=>{p=0;draw()};
+function preset(a,b,c){['a','b','c'].forEach((k,i)=>$('s_'+k).value=[a,b,c][i]);update()}
+$('copy').onclick=()=>{MODES[cur].m.forEach(([x,y])=>{$('s_'+y).value=v1[x]});update()};
+const g=id=>+$('s_'+id).value;
+const ang=(x,y,z)=>Math.acos(Math.max(-1,Math.min(1,(y*y+z*z-x*x)/(2*y*z))))/R;
+const tri=(a,b,c)=>a+b>c&&b+c>a&&a+c>b;
+function update(){
+ const a=g('a'),b=g('b'),c=g('c');
+ v1=tri(a,b,c)?{a,b,c,A:ang(a,b,c),B:ang(b,c,a),C:ang(c,a,b)}:null;
+ let d=g('d'),e=g('e'),f=g('f'),D=g('D'),E=g('E'),F=g('F');v2=null;
+ if(cur=='SSS'){if(tri(d,e,f))v2={d,e,f,D:ang(d,e,f),E:ang(e,f,d),F:ang(f,d,e)}}
+ else if(cur=='SAS'){f=Math.sqrt(d*d+e*e-2*d*e*Math.cos(F*R));v2={d,e,f,D:ang(d,e,f),E:ang(e,f,d),F}}
+ else if(D+E<179){F=180-D-E;const sF=Math.sin(F*R);
+  if(cur=='ASA'){v2={d:f*Math.sin(D*R)/sF,e:f*Math.sin(E*R)/sF,f,D,E,F}}
+  else{v2={d,e:d*Math.sin(E*R)/Math.sin(D*R),f:d*sF/Math.sin(D*R),D,E,F}}}
+ 'def'.split('').concat(['D','E','F']).forEach(k=>{const free=MODES[cur].free.includes(k);$('s_'+k).disabled=!free;$('w_'+k).classList.toggle('off',!free);if(v2&&!free)$('s_'+k).value=v2[k]});
+ const fm=(k,v)=>' = '+(Math.round(v*100)/100)+(SIDE.has(k)?'':'°');
+ if(v1)'abc'.split('').forEach(k=>$('o_'+k).textContent=fm(k,v1[k]));
+ if(v2)'defDEF'.split('').forEach(k=>$('o_'+k).textContent=fm(k,v2[k]));
+ $('ang1').innerHTML=v1?['A','B','C'].map(k=>`<span class="pill">∠${k} = ${v1[k].toFixed(1)}°</span>`).join('')+`<span class="pill" style="background:#fff3bf;color:#7a5b00">รวม 180°</span>`:'';
+ draw();chart();meaning();mascot();
+}
+function pts(a,b,c){const x=(b*b+c*c-a*a)/(2*c),y=Math.sqrt(Math.max(0,b*b-x*x));return [[0,0],[c,0],[x,-y]].map(q=>[q[0]*S,q[1]*S])}
+function place(P,tx,ty,r,sx){const cr=Math.cos(r*R),sr=Math.sin(r*R);return P.map(([x,y])=>{x*=sx;return [tx+x*cr-y*sr,ty+x*sr+y*cr]})}
+const f1=n=>+(+n).toFixed(1);
+function tsvg(Q,v,N,L,cl,op){
+ const ct=[(Q[0][0]+Q[1][0]+Q[2][0])/3,(Q[0][1]+Q[1][1]+Q[2][1])/3];
+ const pt=Q.map(q=>q.join(',')).join(' '),sh=Q.map(q=>(q[0]+6)+','+(q[1]+9)).join(' ');
+ let s=`<g opacity="${op}" style="filter:drop-shadow(0 7px 5px rgba(110,80,180,.28))"><polygon points="${sh}" fill="${cl[1]}" stroke="${cl[1]}" stroke-width="6" stroke-linejoin="round"/><polygon points="${pt}" fill="url(#${cl[2]})" stroke="${cl[0]}" stroke-width="3.5" stroke-linejoin="round"/>`;
+ const unit=(x,y)=>{const m=Math.hypot(x,y)||1;return [x/m,y/m]};
+ for(let i=0;i<3;i++){
+  const j=(i+1)%3,k=(i+2)%3,mx=(Q[j][0]+Q[k][0])/2,my=(Q[j][1]+Q[k][1])/2,u=unit(mx-Q[i][0],my-Q[i][1]);
+  s+=`<text x="${mx+u[0]*16}" y="${my+u[1]*16+5}" text-anchor="middle" font-size="15" font-weight="700" fill="${cl[0]}" stroke="#fff" stroke-width="4" paint-order="stroke">${N[3+i]}=${f1(v[N[3+i]])}</text>`;
+  const w=unit(Q[i][0]-ct[0],Q[i][1]-ct[1]);
+  s+=`<text x="${Q[i][0]+(ct[0]-Q[i][0])*.3}" y="${Q[i][1]+(ct[1]-Q[i][1])*.3+4}" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" stroke="${cl[0]}" stroke-width="3" paint-order="stroke">${Math.round(v[N[i]])}°</text>`;
+  s+=`<circle cx="${Q[i][0]+w[0]*17}" cy="${Q[i][1]+w[1]*17}" r="13" fill="#fff" stroke="${cl[0]}" stroke-width="3"/><text x="${Q[i][0]+w[0]*17}" y="${Q[i][1]+w[1]*17+5}" text-anchor="middle" font-size="14" font-weight="700" fill="${cl[0]}">${L[i]}</text>`;
+ }
+ return s+'</g>';
+}
+function draw(){
+ const sv=$('svg');
+ const defs=`<defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fd0ff"/><stop offset="1" stop-color="#3d8bf2"/></linearGradient><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb0d2"/><stop offset="1" stop-color="#ee4f95"/></linearGradient></defs>`;
+ if(!v1||!v2){sv.innerHTML=defs+`<text x="400" y="210" text-anchor="middle" font-size="22" font-weight="700" fill="#e03131">😵 สร้างสามเหลี่ยมไม่ได้ ลองปรับค่าใหม่ (ผลรวมสองด้านต้องมากกว่าด้านที่สาม / ผลรวมมุมต้องน้อยกว่า 180°)</text>`;$('status').className='no';$('status').textContent='⚠️ ค่าที่ตั้งไว้ไม่สามารถสร้างสามเหลี่ยมได้';return}
+ const Q1=place(pts(v1.a,v1.b,v1.c),62,358,0,1);
+ const sx0=$('mir').checked?-1:1,tx=540+(62-540)*p,ty=215+(358-215)*p,r=-150*(1-p),sx=sx0+(1-sx0)*p;
+ const Q2=place(pts(v2.d,v2.e,v2.f),tx,ty,r,sx);
+ sv.innerHTML=defs+tsvg2(Q1,v1,['A','B','C','a','b','c'],'ABC',['#2b7de0','#1b55b0','gb'],1)+tsvg2(Q2,v2,['D','E','F','d','e','f'],'DEF',['#e0357d','#a82260','gp'],.9);
+}
+function check(){
+ return MODES[cur].m.map(([x,y])=>({x,y,ok:Math.abs(v1[x]-v2[y])<(SIDE.has(x)?.05:.6)}));
+}
+function chart(){
+ if(!v1||!v2){$('chart').innerHTML='';return}
+ const keys=MODES[cur].m.map(m=>m[0]+m[1]);
+ const pairs=[['a','d'],['b','e'],['c','f'],['A','D'],['B','E'],['C','F']];
+ $('chart').innerHTML=pairs.map(([x,y])=>{
+  const sd=SIDE.has(x),u=sd?12:180,ok=Math.abs(v1[x]-v2[y])<(sd?.25:1.2),w=v=>Math.min(100,v/u*100);
+  return `<div class="row ${keys.includes(x+y)?'key':''}"><span>${sd?'':'∠'}${x} ↔ ${sd?'':'∠'}${y}</span><div class="bars"><div style="width:${w(v1[x])}%;background:linear-gradient(90deg,#74c0fc,#339af0)"></div><div style="width:${w(v2[y])}%;background:linear-gradient(90deg,#ffa8d1,#ff6fae)"></div></div><span>${ok?'✅':'❌'}</span></div>`}).join('');
+ const ck=check(),all=ck.every(t=>t.ok),st=$('status');
+ st.className=all?'ok':'no';
+ st.innerHTML=all?`🎉 ΔABC ≅ ΔDEF โดยเงื่อนไข <b>${MODES[cur].n}</b> ด้านและมุมที่เหลือจึงเท่ากันตามไปด้วย ลองกด “เลื่อนทับ” ดู!`:`🤔 ยังไม่เท่ากันทุกประการ — คู่ที่ไม่ตรงกัน: ${ck.filter(t=>!t.ok).map(t=>(SIDE.has(t.x)?'':'∠')+t.x+'↔'+(SIDE.has(t.y)?'':'∠')+t.y).join(', ')} <br>ลองกด “ตั้งให้เท่ากับ ΔABC” แล้วค่อยๆ ปรับทีละค่า`;
+}
+function confetti(){const r=$('svg').getBoundingClientRect();for(let i=0;i<26;i++){const s=document.createElement('span');s.className='cf';s.textContent=['⭐','🎉','✨','💖','🔺'][i%5];s.style.left=(r.left+r.width/2)+'px';s.style.top=(r.top+r.height/2)+'px';s.style.setProperty('--x',(Math.random()*500-250)+'px');s.style.setProperty('--y',(Math.random()*400-250)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1800)}}
+$('play').onclick=()=>{if(!v1||!v2)return;cancelAnimationFrame(anim);p=0;const t0=performance.now();
+ const step=t=>{const k=Math.min(1,(t-t0)/1900);p=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;draw();if(k<1)anim=requestAnimationFrame(step);else if(check().every(x=>x.ok))confetti()};anim=requestAnimationFrame(step)};
+$('reset').onclick=()=>{cancelAnimationFrame(anim);p=0;draw()};
+
+/* ---------- Quiz ---------- */
+const QS=[
+['ΔABC กับ ΔDEF มี AB = DE, BC = EF และ CA = FD สามเหลี่ยมคู่นี้เท่ากันทุกประการโดยเงื่อนไขใด?',['ด.ม.ด.','ด.ด.ด.','ม.ด.ม.','ม.ม.ม.'],1,'ด้านทั้งสามด้านเท่ากันทีละคู่ จึงเป็น ด.ด.ด.'],
+['ΔPQR กับ ΔXYZ มี PQ = XY, ∠Q = ∠Y และ QR = YZ เท่ากันทุกประการโดยเงื่อนไขใด?',['ม.ม.ด.','ด.ด.ด.','ด.ม.ด.','ฉาก-ด้าน-ด้าน'],2,'มุม Q อยู่ระหว่างด้าน PQ และ QR จึงเป็น ด.ม.ด.'],
+['ΔABC ≅ ΔDEF ถ้า ∠A = 50° และ ∠B = 60° แล้ว ∠F มีขนาดเท่าใด?',['50°','60°','70°','80°'],2,'∠C = 180° − 50° − 60° = 70° และ C สมนัยกับ F จึง ∠F = 70°'],
+['ΔABC ≅ ΔDEF ถ้า AB = 7 ซม. และ BC = 9 ซม. แล้ว EF ยาวกี่ซม.?',['7 ซม.','9 ซม.','16 ซม.','ไม่สามารถหาได้'],1,'BC สมนัยกับ EF จึงยาว 9 ซม.'],
+['ข้อใดไม่สามารถใช้สรุปว่าสามเหลี่ยมสองรูปเท่ากันทุกประการได้?',['ด.ด.ด.','ด.ม.ด.','ม.ม.ม.','ม.ด.ม.'],2,'มุมเท่ากันทั้งสามมุมได้ภาพที่ “ขยาย/ย่อ” ได้ ขนาดอาจไม่เท่ากัน'],
+['สามเหลี่ยมรูปหนึ่งมีด้านยาว 5, 6, 7 ซม. อีกรูปมีด้านยาว 7, 5, 6 ซม. สองรูปนี้เป็นอย่างไร?',['เท่ากันทุกประการ (ด.ด.ด.)','ไม่เท่ากัน','เท่ากันเฉพาะมุม','บอกไม่ได้'],0,'ด้านยาวเท่ากันครบสามค่า (เรียงลำดับต่างกันได้) จึงเท่ากันทุกประการโดย ด.ด.ด.'],
+['ΔABC กับ ΔDEF มี ∠A = ∠D = 40°, ∠B = ∠E = 70° และ BC = EF = 8 ซม. เท่ากันทุกประการโดยเงื่อนไขใด?',['ด.ม.ด.','ม.ด.ม.','ม.ม.ด.','ด.ด.ด.'],2,'BC อยู่ตรงข้ามมุม A (EF ตรงข้ามมุม D) ไม่ได้อยู่ระหว่างสองมุมที่กำหนด จึงเป็น ม.ม.ด.'],
+['ช่างทำโครงหลังคาต้องการสร้างโครงสามเหลี่ยมสองชุดให้เหมือนกันทุกประการ โดยวัดเพียง 3 ค่า ควรวัดอะไรจึงแน่ใจที่สุด?',['มุมทั้งสามมุม','ความยาวด้านทั้งสามด้าน','มุมหนึ่งมุมกับด้านหนึ่งด้าน','ความสูงอย่างเดียว'],1,'ด้านทั้งสามด้านกำหนดรูปสามเหลี่ยมได้แน่นอน (ด.ด.ด.) ส่วนมุมทั้งสามอย่างเดียวไม่พอ'],
+['ΔABC และ ΔADC มี AC เป็นด้านร่วม, AB = AD และ CB = CD เท่ากันทุกประการโดยเงื่อนไขใด?',['ด.ม.ด.','ม.ด.ม.','ม.ม.ด.','ด.ด.ด.'],3,'AB = AD, CB = CD และ AC = AC (ด้านร่วม) ครบสามด้าน จึงเป็น ด.ด.ด.'],
+['ΔABC ≅ ΔDEF โดย ∠A = 2x + 10 องศา และ ∠D = 70 องศา ค่า x เท่ากับเท่าใด?',['20','25','30','35'],2,'A สมนัยกับ D จึง 2x + 10 = 70 → 2x = 60 → x = 30']
+];
+/* ---------- Quiz (timed) ---------- */
+const QTL=30;
+let qs={i:0,pts:0,ok:0,res:[],el:0,t0:0,iv:null,locked:1,att:0};
+function qstop(){if(qs.iv){clearInterval(qs.iv);qs.iv=null}}
+function buildQ(){qstop();qs.locked=1;
+ const mine=(LG.logs||[]).filter(l=>l.u==LG.cur&&l.e=='quiz'),best=mine.length?Math.max(...mine.map(x=>x.d.pts||0)):null;
+ $('qbox').innerHTML=`<div class="gcard big">มี 10 ข้อ · ข้อละ <b>${QTL} วินาที</b><br>ตอบถูก = <b>โบนัส 50 คะแนน</b> + คะแนนเวลา สูงสุด <b>50</b> → ข้อละ <b>100</b> (เต็ม 1,000)<br><small>ยิ่งตอบเร็ว ยิ่งได้คะแนนเวลามาก · หมดเวลาหรือตอบผิด = 0 คะแนน</small>${best!==null?`<small>🏅 คะแนนสูงสุดของคุณ: ${best}/1000 (ทำแล้ว ${mine.length} ครั้ง)</small>`:''}</div><div style="text-align:center"><button class="btn gn" id="qgo">▶️ เริ่มทำแบบทดสอบ</button></div>`;
+ $('qgo').onclick=qstart}
+function qstart(){qs={i:0,pts:0,ok:0,res:[],el:0,t0:0,iv:null,locked:0,att:(LG.logs||[]).filter(l=>l.u==LG.cur&&l.e=='quiz').length+1};qshow()}
+function qshow(){const i=qs.i,q=QS[i];qs.locked=0;qs.el=0;
+ $('qbox').innerHTML=`<div class="gh"><span>ข้อ ${i+1}/10</span><span>⭐ คะแนน <b id="qsc">${qs.pts}</b></span><span id="qtm">⏱ ${QTL} วิ</span></div><div class="bar"><i id="qpg" style="width:100%;transition:none"></i></div><div class="q"><div class="t"><span class="n">${i+1}</span>${q[0]}</div>${q[1].map((o,j)=>`<button class="o" data-j="${j}">${'ก ข ค ง'.split(' ')[j]}. ${o}</button>`).join('')}<div class="ex" id="qex"></div></div><div id="qnx" style="text-align:center"></div>`;
+ document.querySelectorAll('#qbox .o').forEach(b=>b.onclick=()=>qans(+b.dataset.j,0));
+ qs.t0=Date.now();qstop();qs.iv=setInterval(qtick,100)}
+function qtick(){const es=(Date.now()-qs.t0)/1000,left=Math.max(0,QTL-es),tm=$('qtm'),pg=$('qpg');if(!tm)return qstop();
+ tm.textContent='⏱ '+Math.ceil(left)+' วิ';tm.style.background=left<=8?'#ffe3e3':'#fff';pg.style.width=(left/QTL*100)+'%';if(es>=QTL)qans(-1,1)}
+function qans(j,to){if(qs.locked)return;qs.locked=1;qstop();const i=qs.i,q=QS[i],es=Math.min(QTL,(Date.now()-qs.t0)/1000),ok=j==q[2],
+ tp=ok?Math.round(50*Math.max(0,1-es/QTL)):0,pts=ok?50+tp:0;
+ qs.pts+=pts;if(ok)qs.ok++;qs.res.push({ok,sec:+es.toFixed(1),pts,to});
+ LG.log('qz',{q:i+1,att:qs.att,res:ok?'ถูก':to?'หมดเวลา':'ผิด',sec:+es.toFixed(1),lim:QTL,base:ok?50:0,tp,pts});
+ document.querySelectorAll('#qbox .o').forEach(b=>{const k=+b.dataset.j;b.disabled=true;if(k==q[2])b.classList.add('right');else if(k==j)b.classList.add('wrong')});
+ const ex=$('qex');ex.style.display='block';
+ ex.innerHTML=(ok?`✅ ถูกต้อง! +${pts} คะแนน (โบนัส 50 + เวลา ${tp}) · ใช้ ${es.toFixed(1)} วิ`:to?'⏰ หมดเวลา! +0 คะแนน':'❌ ยังไม่ถูก +0 คะแนน')+'<br>เฉลย: <b>'+'กขคง'[q[2]]+'. '+q[1][q[2]]+'</b><br>'+q[3];
+ $('qsc').textContent=qs.pts;say(ok?'เก่งมาก! 🎉':to?'หมดเวลาแล้ว ไม่เป็นไรนะ ⏰':'ไม่เป็นไร อ่านเฉลยนะ 💪',ok);
+ const last=i==9;$('qnx').innerHTML=`<button class="btn ${last?'pk':'gn'}" id="qn">${last?'🏁 ดูผลคะแนน':'ข้อต่อไป ➡️'}</button>`;
+ $('qn').onclick=()=>{if(last)qend();else{qs.i++;qshow()}}}
+function qend(){qstop();const tot=qs.res.reduce((s,r)=>s+r.sec,0);
+ LG.log('quiz',{att:qs.att,score:qs.ok,pts:qs.pts,sec:+tot.toFixed(1)});
+ if(qs.ok>=8)confetti();say(qs.pts>=700?'สุดยอดมาก! 🏆':'สู้ๆ ลองอีกครั้งนะ 💪',qs.pts>=500);
+ const em=qs.pts>=900?'🏆':qs.pts>=700?'🌟':qs.pts>=500?'😊':'💪';
+ $('qbox').innerHTML=`<div id="res">${em} คะแนนรวม ${qs.pts}/1000<br><small>ตอบถูก ${qs.ok}/10 ข้อ · ใช้เวลารวม ${tot.toFixed(1)} วินาที</small></div><div style="overflow-x:auto"><table class="tt"><tr><th>ข้อ</th><th>ผล</th><th>เวลา (วิ)</th><th>คะแนน/100</th></tr>${qs.res.map((r,k)=>`<tr><td>${k+1}</td><td>${r.ok?'✅ ถูก':r.to?'⏰ หมดเวลา':'❌ ผิด'}</td><td>${r.sec}</td><td>${r.pts}</td></tr>`).join('')}</table></div><div style="text-align:center"><button class="btn yl" onclick="buildQ()">🔄 ทำใหม่</button></div>`}
+/* ---------- Teacher dashboard ---------- */
+const TOPEN={};
+function tchRender(){LG.logs=J('tri_log')||LG.logs;const us=LG.users(),f=($('tq').value||'').trim().toLowerCase(),me=us[LG.cur];
+ if(!me||me.r!='t'){$('ttab').innerHTML='<p>เฉพาะบัญชีครูเท่านั้น</p>';return}
+ const rows=Object.keys(us).filter(u=>us[u].r!='t').map(u=>{const a=us[u],l=LG.logs.filter(x=>x.u==u),z=l.filter(x=>x.e=='quiz'),p=l.filter(x=>x.e=='pot');
+  return{u,n:a.n,c:a.c||'',z,p,zn:z.length,zl:z.length?z[z.length-1].d.pts:null,zb:z.length?Math.max(...z.map(x=>x.d.pts||0)):null,zk:z.length?z[z.length-1].d.score:null,pn:p.length,pb:p.length?Math.max(...p.map(x=>x.d.score)):null,last:l.length?l[l.length-1].t:'-',l}})
+  .filter(r=>!f||(r.n+' '+r.c+' '+r.u).toLowerCase().includes(f)).sort((a,b)=>(a.c+a.n).localeCompare(b.c+b.n,'th'));
+ const dn=rows.filter(r=>r.zn),avg=dn.length?Math.round(dn.reduce((s,r)=>s+r.zb,0)/dn.length):0;
+ $('tsum').innerHTML=`<span>👧 นักเรียน ${rows.length} คน</span><span>📝 ทำแบบทดสอบแล้ว ${dn.length} คน</span><span>📊 ค่าเฉลี่ยคะแนนสูงสุด ${avg}/1000</span>`;
+ const e=X.esc,v=x=>x===null?'-':x;
+ $('ttab').innerHTML=rows.length?`<table class="tt"><tr><th>#</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th>ทำแบบทดสอบ (ครั้ง)</th><th>ล่าสุด /1000</th><th>สูงสุด /1000</th><th>ถูกล่าสุด /10</th><th>เกม (หม้อ)</th><th>เกมสูงสุด /500</th><th>ใช้งานล่าสุด</th></tr>`+rows.map((r,i)=>{
+  let h=`<tr class="tr" data-u="${e(r.u)}"><td>${i+1}</td><td style="text-align:left">${e(r.n)}</td><td>${e(r.c)}</td><td>${r.zn}</td><td>${v(r.zl)}</td><td><b>${v(r.zb)}</b></td><td>${v(r.zk)}</td><td>${r.pn}</td><td>${v(r.pb)}</td><td>${e(r.last)}</td></tr>`;
+  if(TOPEN[r.u]){const la=r.z.length?r.z[r.z.length-1].d.att:0,qq=r.l.filter(x=>x.e=='qz'&&x.d.att==la);
+   h+=`<tr><td colspan="10" style="text-align:left;background:#fff9db">`+(r.zn?`<b>ประวัติแบบทดสอบ:</b> `+r.z.map(x=>`ครั้งที่ ${x.d.att}: ${x.d.pts}/1000 (ถูก ${x.d.score}/10, ${x.d.sec} วิ)`).join(' · ')+`<br><b>รายข้อ (ครั้งล่าสุด):</b> `+qq.map(x=>`<span class="pill">ข้อ ${x.d.q} ${x.d.res=='ถูก'?'✅':x.d.res=='หมดเวลา'?'⏰':'❌'} ${x.d.pts} (${x.d.sec} วิ)</span>`).join(''):'ยังไม่ได้ทำแบบทดสอบ')+`</td></tr>`}
+  return h}).join('')+'</table>':'<p>ยังไม่มีนักเรียนในระบบ (บนเบราว์เซอร์เครื่องนี้)</p>';
+ document.querySelectorAll('#ttab .tr').forEach(t=>t.onclick=()=>{TOPEN[t.dataset.u]=!TOPEN[t.dataset.u];tchRender()})}
+const MEAN={SSS:'<b>ด.ด.ด. (ด้าน-ด้าน-ด้าน)</b> ด้านทั้งสามด้านเท่ากันทีละคู่ → เท่ากันทุกประการ (ปรับ d, e, f)',SAS:'<b>ด.ม.ด. (ด้าน-มุม-ด้าน)</b> มุมต้องอยู่ <u>ระหว่าง</u> สองด้านที่กำหนด คือ ∠F อยู่ระหว่าง d กับ e (ปรับ d, e, ∠F)',ASA:'<b>ม.ด.ม. (มุม-ด้าน-มุม)</b> ด้านต้องอยู่ <u>ระหว่าง</u> สองมุม คือ f อยู่ระหว่าง ∠D กับ ∠E (ปรับ ∠D, ∠E, f)',AAS:'<b>ม.ม.ด. (มุม-มุม-ด้าน)</b> สองมุม และด้านที่ <u>ไม่ได้อยู่ระหว่าง</u> มุมนั้น คือ d ตรงข้าม ∠D (ปรับ ∠D, ∠E, d)'};
+function tsvg2(Q,v,N,L,cl,op){
+ const U=(x,y)=>{const m=Math.hypot(x,y)||1;return [x/m,y/m]},ct=[(Q[0][0]+Q[1][0]+Q[2][0])/3,(Q[0][1]+Q[1][1]+Q[2][1])/3];
+ const ar=Math.abs((Q[1][0]-Q[0][0])*(Q[2][1]-Q[0][1])-(Q[2][0]-Q[0][0])*(Q[1][1]-Q[0][1]))/2,per=[0,1,2].reduce((t,i)=>t+Math.hypot(Q[i][0]-Q[(i+1)%3][0],Q[i][1]-Q[(i+1)%3][1]),0),fs=Math.min(1.1,Math.max(.4,ar/(per/2)/16));
+ const P=(k,dx,dy)=>Q.map(q=>(q[0]+k*dx)+','+(q[1]+k*dy)).join(' ');
+ let s=`<g opacity="${op}" style="filter:drop-shadow(0 9px 7px rgba(70,40,140,.28))">`;
+ for(let k=9;k>=1;k--)s+=`<polygon points="${P(k,.8,1.1)}" fill="${cl[1]}" stroke="${cl[1]}" stroke-width="5" stroke-linejoin="round"/>`;
+ s+=`<polygon points="${P(0,0,0)}" fill="url(#${cl[2]})" stroke="${cl[0]}" stroke-width="5" stroke-linejoin="round"/>`;
+ s+=`<polygon points="${Q.map(q=>(ct[0]+(q[0]-ct[0])*.85)+','+(ct[1]+(q[1]-ct[1])*.85)).join(' ')}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linejoin="round"/>`;
+ const tk=[3,2,1];
+ for(let i=0;i<3;i++){
+  const j=(i+1)%3,k=(i+2)%3,mx=(Q[j][0]+Q[k][0])/2,my=(Q[j][1]+Q[k][1])/2,d=U(Q[k][0]-Q[j][0],Q[k][1]-Q[j][1]),n=[-d[1],d[0]];
+  for(let t=0;t<tk[i];t++){const o=(t-(tk[i]-1)/2)*6,x=mx+d[0]*o,y=my+d[1]*o;s+=`<line x1="${x-n[0]*7}" y1="${y-n[1]*7}" x2="${x+n[0]*7}" y2="${y+n[1]*7}" stroke="${cl[1]}" stroke-width="2.6" stroke-linecap="round"/>`}
+  const a1=Math.atan2(Q[j][1]-Q[i][1],Q[j][0]-Q[i][0]),a2=Math.atan2(Q[k][1]-Q[i][1],Q[k][0]-Q[i][0]),df=Math.atan2(Math.sin(a2-a1),Math.cos(a2-a1));
+  for(let m=0;m<=i;m++){const r=15+m*5;s+=`<path d="M${Q[i][0]+r*Math.cos(a1)} ${Q[i][1]+r*Math.sin(a1)} A${r} ${r} 0 0 ${df>0?1:0} ${Q[i][0]+r*Math.cos(a2)} ${Q[i][1]+r*Math.sin(a2)}" fill="none" stroke="${cl[1]}" stroke-width="2.4" stroke-linecap="round"/>`}
+ }
+ s+=`<g transform="translate(${ct[0]},${ct[1]}) scale(${fs})"><ellipse cx="-9" cy="-3" rx="3.4" ry="4.4" fill="#3b2f63"/><ellipse cx="9" cy="-3" rx="3.4" ry="4.4" fill="#3b2f63"/><circle cx="-10" cy="-5" r="1.3" fill="#fff"/><circle cx="8" cy="-5" r="1.3" fill="#fff"/><circle cx="-16" cy="5" r="4.5" fill="#ffc2d6" opacity=".85"/><circle cx="16" cy="5" r="4.5" fill="#ffc2d6" opacity=".85"/><path d="M-5 5 Q0 12 5 5" fill="none" stroke="#3b2f63" stroke-width="2.4" stroke-linecap="round"/></g>`;
+ for(let i=0;i<3;i++){
+  const j=(i+1)%3,k=(i+2)%3,mx=(Q[j][0]+Q[k][0])/2,my=(Q[j][1]+Q[k][1])/2,u=U(mx-Q[i][0],my-Q[i][1]),w=U(Q[i][0]-ct[0],Q[i][1]-ct[1]);
+  s+=`<text x="${mx+u[0]*20}" y="${my+u[1]*20+5}" text-anchor="middle" font-size="15" font-weight="700" fill="${cl[0]}" stroke="#fff" stroke-width="4" paint-order="stroke">${N[3+i]}=${f1(v[N[3+i]])}</text>`;
+  s+=`<circle cx="${Q[i][0]}" cy="${Q[i][1]}" r="5" fill="#fff" stroke="${cl[0]}" stroke-width="2.5"/><circle cx="${Q[i][0]+w[0]*21}" cy="${Q[i][1]+w[1]*21}" r="13" fill="${cl[0]}" stroke="#fff" stroke-width="3"/><text x="${Q[i][0]+w[0]*21}" y="${Q[i][1]+w[1]*21+5}" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">${L[i]}</text>`;
+  s+=`<text x="${Q[i][0]+w[0]*43}" y="${Q[i][1]+w[1]*43+4}" text-anchor="middle" font-size="12" font-weight="700" fill="${cl[0]}" stroke="#fff" stroke-width="4" paint-order="stroke">${Math.round(v[N[i]])}°</text>`;
+ }
+ return s+'</g>';
+}
+function meaning(){$('mean').innerHTML='💡 <b>ความหมาย:</b> '+MEAN[cur]+'<br><small>สมนัย: A↔D · B↔E · C↔F · a↔d · b↔e · c↔f</small>'}
+function say(t,h){$('bub').textContent=t;const m=$('mouth');m.setAttribute('d',h?'M50 85 Q60 100 70 85 Z':'M52 94 Q60 86 68 94');m.setAttribute('fill',h?'#ff7aa8':'none')}
+function mascot(){if(!$('lab').classList.contains('on'))return;if(!v1||!v2)return say('อุ๊ย สร้างไม่ได้ ลองปรับค่าใหม่นะ 😵',0);const ok=check().every(t=>t.ok);say(ok?'เท่ากันทุกประการ! กดเลื่อนทับเลย 🎉':'ยังไม่เท่ากัน ลองปรับต่อนะ 🤔',ok)}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.p=='tch')tchRender()}));$('tq').oninput=()=>tchRender();
+update();say('สวัสดี! พี่คือน้องสามเหลี่ยม 🔺 มาเรียนด้วยกันนะ',1);
+/* ---------- Login & Usage Log ---------- */
+const TCODE='SUJIRA';
+const ST=(()=>{const m={};let ok=1;try{localStorage.setItem('_t',1);localStorage.removeItem('_t')}catch(e){ok=0}return{get:k=>ok?localStorage.getItem(k):(m[k]??null),set:(k,v)=>{ok?localStorage.setItem(k,v):m[k]=v},del:k=>{ok?localStorage.removeItem(k):delete m[k]}}})();
+async function sha(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=5381;for(const c of s)h=(h*33^c.charCodeAt(0))>>>0;return'x'+h}}
+const pad=n=>String(n).padStart(2,'0'),fmt=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+const MN={rec:'ตำรับยา',rush:'คัดแยกสมุนไพร',sec:'เติมสารลับ'},TN={learn:'เรียนรู้',lab:'ห้องทดลอง',quiz:'แบบทดสอบ',game:'เกมปรุงยา'},EN={qz:'ตอบข้อ (แบบทดสอบ)',login:'เข้าสู่ระบบ',resume:'กลับเข้าใช้งาน',logout:'ออกจากระบบ',tab:'เปิดหน้า',q:'ตอบข้อ (เกม)',pot:'ปรุงยาเสร็จ',quiz:'ทำแบบทดสอบ',dl:'ดาวน์โหลด Excel'};
+const J=k=>{try{return JSON.parse(ST.get(k))||null}catch(e){return null}};
+const X={
+ crc:(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=t[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}})(),
+ esc:s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,''),
+ col(i){let s='';i++;while(i>0){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26)}return s},
+ sheet(rows,w){let x='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>'+w.map((v,i)=>`<col min="${i+1}" max="${i+1}" width="${v}" customWidth="1"/>`).join('')+'</cols><sheetData>';
+  rows.forEach((r,ri)=>{x+=`<row r="${ri+1}">`+r.map((v,ci)=>{const a=X.col(ci)+(ri+1),s=ri?'':' s="1"';return typeof v=='number'&&isFinite(v)?`<c r="${a}"${s}><v>${v}</v></c>`:`<c r="${a}"${s} t="inlineStr"><is><t xml:space="preserve">${X.esc(v)}</t></is></c>`}).join('')+'</row>'});
+  return x+'</sheetData></worksheet>'},
+ zip(files){const E=new TextEncoder(),parts=[],cd=[];let off=0;
+  for(const [n,c] of files){const nb=E.encode(n),db=E.encode(c),crc=X.crc(db),h=new DataView(new ArrayBuffer(30));
+   h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(12,0x21,true);h.setUint32(14,crc,true);h.setUint32(18,db.length,true);h.setUint32(22,db.length,true);h.setUint16(26,nb.length,true);
+   parts.push(new Uint8Array(h.buffer),nb,db);
+   const d=new DataView(new ArrayBuffer(46));d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0x0800,true);d.setUint16(14,0x21,true);d.setUint32(16,crc,true);d.setUint32(20,db.length,true);d.setUint32(24,db.length,true);d.setUint16(28,nb.length,true);d.setUint32(42,off,true);
+   cd.push(new Uint8Array(d.buffer),nb);off+=30+nb.length+db.length}
+  let cl=0;cd.forEach(b=>cl+=b.length);const e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cl,true);e.setUint32(16,off,true);
+  return new Blob([...parts,...cd,new Uint8Array(e.buffer)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})},
+ book(sh){const NS='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"',H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',RN='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  const f=[['[Content_Types].xml',H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sh.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')+'</Types>'],
+  ['_rels/.rels',H+`<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${RN}/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+  ['xl/workbook.xml',H+`<workbook ${NS} xmlns:r="${RN}"><sheets>`+sh.map((s,i)=>`<sheet name="${X.esc(s[0])}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')+'</sheets></workbook>'],
+  ['xl/_rels/workbook.xml.rels',H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sh.map((_,i)=>`<Relationship Id="rId${i+1}" Type="${RN}/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')+`<Relationship Id="rId${sh.length+1}" Type="${RN}/styles" Target="styles.xml"/></Relationships>`],
+  ['xl/styles.xml',H+`<styleSheet ${NS}><fonts count="2"><font><sz val="11"/><name val="Tahoma"/></font><font><b/><sz val="11"/><name val="Tahoma"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFE5DBFF"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/></cellXfs></styleSheet>`],
+  ...sh.map((s,i)=>[`xl/worksheets/sheet${i+1}.xml`,X.sheet(s[1],s[2])])];
+  return X.zip(f)}
+};
+const LG={cur:null,t0:0,logs:J('tri_log')||[],users:()=>J('tri_users')||{},
+ log(e,d){if(!LG.cur)return;LG.logs.push({t:fmt(new Date()),u:LG.cur,e,d:d||{}});if(LG.logs.length>8000)LG.logs.shift();ST.set('tri_log',JSON.stringify(LG.logs))},
+ enter(u,mode){LG.cur=u;LG.t0=Date.now();ST.set('tri_sess',u);const x=LG.users()[u];$('lg').style.display='none';$('tabT').style.display=x.r=='t'?'':'none';buildQ();$('ub').style.display='flex';$('ubn').textContent=`👤 ${x.n} · ${x.r=='t'?'ครู':'นักเรียน'}${x.c?' · '+x.c:''}`;LG.log(mode=='resume'?'resume':'login',{new:mode=='new'});if(mode!='resume')say('สวัสดี '+x.n.split(' ')[0]+'! ยินดีต้อนรับ 🔺',1)},
+ out(){LG.log('logout',{mins:+((Date.now()-LG.t0)/60000).toFixed(1)});ST.del('tri_sess');location.reload()},
+ dl(){const us=LG.users(),T=us[LG.cur].r=='t',L=LG.logs.filter(l=>T||l.u==LG.cur),nm=u=>us[u]?us[u].n:u;
+  const ur=Object.keys(us).filter(u=>T||u==LG.cur).map(u=>{const l=L.filter(x=>x.u==u),q=l.filter(x=>x.e=='q'),p=l.filter(x=>x.e=='pot'),z=l.filter(x=>x.e=='quiz'),a=us[u];return[u,a.n,a.c||'',a.r=='t'?'ครู':'นักเรียน',a.t||'',l.filter(x=>x.e=='login').length,l.length?l[l.length-1].t:'',p.length,p.reduce((s,x)=>s+x.d.score,0),p.length?Math.max(...p.map(x=>x.d.score)):0,q.filter(x=>x.d.res=='ถูก').length+'/'+q.length,z.length,z.length?z[z.length-1].d.pts:'-',z.length?Math.max(...z.map(y=>y.d.pts||0)):'-',z.length?z[z.length-1].d.score:'-']});
+  const zr=L.filter(x=>x.e=='qz').map(x=>[x.t,x.u,nm(x.u),x.d.att,x.d.q,x.d.res,x.d.sec,x.d.lim,x.d.base,x.d.tp,x.d.pts]),za=L.filter(x=>x.e=='quiz').map(x=>[x.t,x.u,nm(x.u),x.d.att,x.d.score,x.d.pts,x.d.sec]);
+  const qr=L.filter(x=>x.e=='q').map(x=>[x.t,x.u,nm(x.u),x.d.pot,MN[x.d.mode],x.d.q,x.d.res,x.d.sec,x.d.lim,x.d.base,x.d.tp,x.d.pts]),
+  pr=L.filter(x=>x.e=='pot').map(x=>[x.t,x.u,nm(x.u),x.d.pot,MN[x.d.mode],x.d.k,x.d.score,x.d.item]),
+  dt=x=>({login:x.d.new?'สมัครใหม่':'',logout:`ใช้งาน ${x.d.mins} นาที`,tab:TN[x.d.tab]||'',q:`${MN[x.d.mode]} ข้อ ${x.d.q} ${x.d.res} ${x.d.pts} คะแนน (${x.d.sec} วิ)`,pot:`${MN[x.d.mode]} ถูก ${x.d.k}/5 · ${x.d.score}/500 · ได้ ${x.d.item}`,quiz:`ครั้งที่ ${x.d.att} ถูก ${x.d.score}/10 · ${x.d.pts}/1000 คะแนน`,qz:`ข้อ ${x.d.q} ${x.d.res} ${x.d.pts} คะแนน (${x.d.sec} วิ)`})[x.e]||'',
+  lr=L.map(x=>[x.t,x.u,nm(x.u),EN[x.e]||x.e,dt(x)]);
+  const b=X.book([['สรุปผู้ใช้',[['ชื่อผู้ใช้','ชื่อ-นามสกุล','ชั้น/ห้อง','บทบาท','สมัครเมื่อ','เข้าสู่ระบบ (ครั้ง)','ใช้งานล่าสุด','ปรุงยา (หม้อ)','คะแนนเกมรวม','คะแนนสูงสุด/หม้อ (เต็ม 500)','ตอบถูก/ทั้งหมด (ข้อ)','ทำแบบทดสอบ (ครั้ง)','แบบทดสอบล่าสุด (เต็ม 1000)','แบบทดสอบสูงสุด (เต็ม 1000)','ตอบถูกล่าสุด (เต็ม 10)'],...ur],[16,22,12,10,19,16,19,12,14,24,18,16,24,24,22]],
+   ['ผลรายข้อ',[['เวลา','ชื่อผู้ใช้','ชื่อ-นามสกุล','รหัสหม้อ','โหมด','ข้อที่','ผล','เวลาที่ใช้ (วินาที)','เวลาที่กำหนด (วินาที)','โบนัสตอบผ่าน','คะแนนเวลา','รวม (เต็ม 100)'],...qr],[19,14,22,10,18,8,10,16,18,14,12,14]],
+   ['แบบทดสอบรายครั้ง',[['เวลา','ชื่อผู้ใช้','ชื่อ-นามสกุล','ครั้งที่','ตอบถูก (เต็ม 10)','คะแนนรวม (เต็ม 1000)','เวลารวม (วินาที)'],...za],[19,14,22,10,16,20,16]],
+   ['แบบทดสอบรายข้อ',[['เวลา','ชื่อผู้ใช้','ชื่อ-นามสกุล','ครั้งที่','ข้อที่','ผล','เวลาที่ใช้ (วินาที)','เวลาที่กำหนด (วินาที)','โบนัสตอบถูก','คะแนนเวลา','รวม (เต็ม 100)'],...zr],[19,14,22,8,8,10,16,18,14,12,14]],
+   ['ผลรายหม้อ',[['เวลา','ชื่อผู้ใช้','ชื่อ-นามสกุล','รหัสหม้อ','โหมด','ถูก (จาก 5 ข้อ)','คะแนนรวม (เต็ม 500)','ของที่ได้'],...pr],[19,14,22,10,18,16,20,26]],
+   ['บันทึกการใช้งาน',[['เวลา','ชื่อผู้ใช้','ชื่อ-นามสกุล','เหตุการณ์','รายละเอียด'],...lr],[19,14,22,20,60]]]);
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='triangle_usage_'+fmt(new Date()).replace(/\D/g,'').slice(0,12)+'.xlsx';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800);LG.log('dl',{})}
+};
+(()=>{const er=t=>$('lge').textContent=t,tab=i=>{$('lgi').style.display=i?'none':'block';$('lgr').style.display=i?'block':'none';$('lgt1').classList.toggle('on',!i);$('lgt2').classList.toggle('on',!!i);er('')};
+ $('lgt1').onclick=()=>tab(0);$('lgt2').onclick=()=>tab(1);$('rgr').onchange=()=>$('rgt').style.display=$('rgr').value=='t'?'block':'none';
+ async function doIn(){const u=$('lgu').value.trim().toLowerCase(),x=LG.users()[u];if(!x||x.h!==await sha(x.s+$('lgp').value))return er('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');LG.enter(u,'in')}
+ async function doReg(){const n=$('rgn').value.trim(),c=$('rgc').value.trim(),u=$('rgu').value.trim().toLowerCase(),p=$('rgp').value,r=$('rgr').value,us=LG.users();
+  if(!n||!u||p.length<4)return er('กรอกชื่อ ชื่อผู้ใช้ และรหัสผ่านอย่างน้อย 4 ตัวอักษร');if(!/^[a-z0-9_.-]{3,20}$/.test(u))return er('ชื่อผู้ใช้ใช้ a-z 0-9 _ . - ยาว 3–20 ตัว');
+  if(r=='t'&&$('rgt').value!==TCODE)return er('รหัสครูไม่ถูกต้อง');if(us[u])return er('มีชื่อผู้ใช้นี้แล้ว');
+  const s=Math.random().toString(36).slice(2);us[u]={n,c,r,s,h:await sha(s+p),t:fmt(new Date())};ST.set('tri_users',JSON.stringify(us));LG.enter(u,'new')}
+ $('lgb1').onclick=doIn;$('lgb2').onclick=doReg;['lgu','lgp'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key=='Enter')doIn()}));
+ $('ubx').onclick=()=>LG.dl();$('ubo').onclick=()=>LG.out();
+ const s=ST.get('tri_sess');if(s&&LG.users()[s])LG.enter(s,'resume')})();
+
+/* ---------- Potion Game ---------- */
+(()=>{
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pk=a=>a[rnd(0,a.length-1)],shf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const CN={SSS:'ด.ด.ด.',SAS:'ด.ม.ด.',ASA:'ม.ด.ม.',AAS:'ม.ม.ด.'},KEY={SSS:'abc',SAS:'bcA',ASA:'ABc',AAS:'ABa'},
+EX={SSS:'ด้านทั้งสามเท่ากันทีละคู่',SAS:'สองด้านและมุมที่อยู่ระหว่างด้านนั้นเท่ากัน',ASA:'สองมุมและด้านที่อยู่ระหว่างมุมนั้นเท่ากัน',AAS:'สองมุมและด้านที่ไม่อยู่ระหว่างมุมนั้นเท่ากัน'},
+BL=['#2b7de0','#a5d8ff'],PK=['#e0357d','#ffc9de'],CL=[['#2b8a3e','#b2f2bb'],['#7048e8','#d0bfff'],['#e8590c','#ffd8a8'],['#c2255c','#fcc2d7']],N=8,B=$('gboard');
+let M='rec',L=3,Sc=0,Cb=0,Rd=0,T=45,tm=null,lock=0,gen=0,cu={};
+function mkT(c,[x,y,z]){let a,b,cc,A,B2,C;
+ if(c=='SSS'){a=x;b=y;cc=z}
+ else if(c=='SAS'){b=x;cc=y;A=z;a=Math.sqrt(b*b+cc*cc-2*b*cc*Math.cos(A*R))}
+ else{A=x;B2=y;C=180-A-B2;const s=Math.sin(C*R);if(c=='ASA'){cc=z;a=cc*Math.sin(A*R)/s;b=cc*Math.sin(B2*R)/s}else{a=z;b=a*Math.sin(B2*R)/Math.sin(A*R);cc=a*s/Math.sin(A*R)}}
+ return{a,b,c:cc,A:ang(a,b,cc),B:ang(b,cc,a),C:ang(cc,a,b)}}
+function rp(c){if(c=='SSS'){for(;;){const a=rnd(3,9),b=rnd(3,9),d=rnd(3,9);if(tri(a,b,d)&&!(a==b&&b==d))return[a,b,d]}}
+ if(c=='SAS')return[rnd(3,9),rnd(3,9),rnd(3,8)*10+10];
+ return[rnd(3,8)*10,rnd(3,8)*10,rnd(4,9)]}
+function tw(c,p){for(;;){const q=[...p],i=rnd(0,2),an=(c=='SAS'&&i==2)||((c=='ASA'||c=='AAS')&&i<2);q[i]+=an?pk([-10,10]):pk([-2,-1,1,2]);
+ if(q[i]<(an?20:2)||(an&&q[i]>100))continue;if(c=='SSS'&&!tri(...q))continue;if((c=='ASA'||c=='AAS')&&q[0]+q[1]>=170)continue;if(q.join()!=p.join())return q}}
+const tx=(x,y,t)=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="15" font-weight="700" fill="#3b2f63" stroke="#fff" stroke-width="4" paint-order="stroke">${t}</text>`;
+function dr(v,ks,col,rot,fl){
+ const r=rot*R;let P=pts(v.a,v.b,v.c).map(([x,y])=>{x=fl?-x:x;return[x*Math.cos(r)-y*Math.sin(r),x*Math.sin(r)+y*Math.cos(r)]});
+ const X=P.map(q=>q[0]),Y=P.map(q=>q[1]),x0=Math.min(...X),x1=Math.max(...X),y0=Math.min(...Y),y1=Math.max(...Y),s=Math.min(140/(x1-x0||1),95/(y1-y0||1));
+ P=P.map(([x,y])=>[(x-(x0+x1)/2)*s+110,(y-(y0+y1)/2)*s+80]);
+ const ct=[0,1].map(i=>(P[0][i]+P[1][i]+P[2][i])/3);
+ let h=`<svg viewBox="0 0 220 160"><polygon points="${P.map(q=>q.join()).join(' ')}" fill="${col[1]}" stroke="${col[0]}" stroke-width="4" stroke-linejoin="round"/>`;
+ for(const k of ks){if(k>='a'){const[i,j]={a:[1,2],b:[2,0],c:[0,1]}[k],mx=(P[i][0]+P[j][0])/2,my=(P[i][1]+P[j][1])/2,dx=mx-ct[0],dy=my-ct[1],m=Math.hypot(dx,dy)||1;h+=tx(mx+dx/m*16,my+dy/m*16+5,Math.round(v[k]))}
+ else{const i='ABC'.indexOf(k);h+=tx(P[i][0]+(ct[0]-P[i][0])*.4,P[i][1]+(ct[1]-P[i][1])*.4+5,Math.round(v[k])+'°')}}
+ return h+'</svg>'}
+function fx(el,a){const r=el.getBoundingClientRect();for(let i=0;i<9;i++){const s=document.createElement('span');s.className='cf';s.textContent=pk(a);s.style.left=r.left+r.width/2+'px';s.style.top=r.top+Math.min(r.height/2,200)+'px';s.style.setProperty('--x',rnd(-130,130)+'px');s.style.setProperty('--y',rnd(-170,-20)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1700)}}
+const NQ=5,cau=$('cau'),bin=$('bin');let rs=[],qi=0,dg=null,ghost=null,gx=[0,0],mv=0,hd=0,bag=[],potId='',qt0=0,TL=40,pzT=0;const TLM={rec:40,rush:25,sec:45};
+const TIER={5:[['🦄','ยูนิคอร์นจิ๋ว'],['🐉','มังกรน้อยพ่นฟอง'],['🍰','เค้กสายรุ้ง'],['🍩','โดนัททองคำ'],['🐱','แมวเวทมนตร์'],['🧁','คัพเค้กดาวระยิบ'],['🐰','กระต่ายดวงจันทร์'],['🍭','ลูกอมสายฟ้า']],4:[['🪄','ไม้กายสิทธิ์ดาวตก'],['🔮','ลูกแก้วทำนายอนาคต'],['👑','มงกุฎจอมเวทย์']],3:[['📜','ม้วนคัมภีร์ลับ'],['🗝️','กุญแจเวทมนตร์'],['🧿','เครื่องรางนำโชค']],2:[['🎈','ลูกโป่งลอยฟ้า'],['🧦','ถุงเท้าวิเศษวิ่งเร็ว'],['🔦','ไฟฉายส่องเงา']],1:[['🥄','ช้อนคนยาที่พูดได้'],['🍄','เห็ดกระโดดดึ๋ง'],['🪁','ว่าวเวทมนตร์']],0:[['☠️','ยาพิษฟองเขียว']]};
+const MSG={5:'สุดยอด! ปรุงสำเร็จทุกขั้นตอน 🎉',4:'เกือบสมบูรณ์แบบ! ได้ของวิเศษระดับสูง ✨',3:'ใช้ได้เลย! ได้ของวิเศษที่เป็นประโยชน์ 😊',2:'พลาดไปนิดหน่อย ได้ของวิเศษแปลกๆ มาแทน 😄',1:'ยังได้ของวิเศษชิ้นเล็กๆ มาด้วยนะ 🌱',0:'ไม่เป็นไรนะ 💚 นักปรุงยาเก่งๆ ทุกคนก็เคยทำยาพิษกันทั้งนั้น! หม้อนี้คือบทเรียนที่ดี ลองทบทวนแล้วปรุงใหม่อีกครั้ง เธอทำได้แน่นอน!'};
+const face=h=>{const m=$('cm');m.setAttribute('d',h?'M98 134 Q120 160 142 134 Z':'M100 148 Q120 130 140 148');m.setAttribute('fill',h?'#ff7aa8':'none')};
+const WC=['','#ffd43b','#ff922b','#9bb02a','#566b1f','#3b4a16'];
+function liq(){const o=rs.filter(Boolean).length,w=rs.length-o;$('liq').setAttribute('fill',w==0?`hsl(${300-o*40},85%,72%)`:WC[Math.min(w,5)]);cau.style.setProperty('--gs',1+.05*o);document.querySelectorAll('#crk path').forEach((c,i)=>c.style.opacity=i<w?1:0)}
+function hud(){$('slots').textContent=Array.from({length:NQ},(_,i)=>rs[i]===undefined?'🫧':rs[i]?'✅':'❌').join(' ');$('gs').textContent=Sc;$('gc').textContent=Cb;liq()}
+const cs=t=>$('cs').textContent=t,hdr=t=>`<div class="qh">ขวดที่ ${qi+1}/${NQ} · ${t}</div>`;
+function nRec(){const c=pk(Object.keys(CN)),p=rp(c),t=mkT(c,p),o=[{v:t,ok:1}],sn=[p+''];
+ while(o.length<4){const q=tw(c,p);if(!sn.includes(q+'')){sn.push(q+'');o.push({v:mkT(c,q),ok:0})}}
+ const so=shf(o);cu={c,ok:so.map(x=>x.ok)};
+ B.innerHTML=hdr('ตำรับยา')+`<div class="gcard">📜 ตำรับ${dr(t,KEY[c],BL,0,0)}<small>ลากวัตถุดิบที่ <u>เท่ากันทุกประการ</u> ลงหม้อ (หมุน/พลิกได้)</small></div><div class="gopts">${so.map((x,i)=>`<button class="gp dg co" data-i="${i}">${dr(x.v,KEY[c],CL[i],rnd(0,359),Math.random()<.5)}</button>`).join('')}</div><div id="gr"></div>`}
+function nRush(){const c=pk(Object.keys(CN)),p=rp(c),t=mkT(c,p),ty=pk(['s','s','d','a']);let t2=t,ky=KEY[c],ok=1,w='ตรงกันทุกค่า → '+CN[c];
+ if(ty=='d'){t2=mkT(c,tw(c,p));ok=0;w='มีค่าหนึ่งไม่เท่ากัน'}
+ if(ty=='a'){ky='ABC';ok=0;w='มุมเท่ากันสามมุม (ม.ม.ม.) ยังสรุปไม่ได้ ด้านอาจยาวไม่เท่ากัน'}
+ cu={ok,w};
+ B.innerHTML=hdr('คัดแยกสมุนไพร')+`<div class="gp dg pair"><div class="gopts" style="grid-template-columns:1fr 1fr;margin:0"><div class="gcard">🌿 รูปที่ 1${dr(t,ky,BL,0,0)}</div><div class="gcard">🌿 รูปที่ 2${dr(t2,ky,PK,rnd(0,359),Math.random()<.5)}</div></div></div><div class="gcard" style="max-width:none">เท่ากันทุกประการไหม? ลากคู่นี้ลง <b>หม้อ</b> (≅) หรือ <b>ถังทิ้ง</b> (≇)</div><div class="gr2"><button class="btn gn gp" data-a="1">🍲 ใส่หม้อ (≅)</button><button class="btn pk gp" data-a="0">🗑️ ทิ้ง (≇)</button></div><div id="gr"></div>`}
+function nSec(){const t=rnd(0,2);let q,ans,ex,ask='x',ex2=[];
+ if(t==0){const m=rnd(2,4),x=rnd(5,25),k=rnd(5,20),v=m*x+k;q=`ΔABC ≅ ΔDEF โดย ∠A = (${m}x + ${k})° และ ∠D = ${v}°`;ans=x;ex=`A สมนัยกับ D → ${m}x + ${k} = ${v} → x = ${x}`}
+ else if(t==1){const m=rnd(2,4),x=rnd(3,9),k=rnd(1,5),v=m*x-k;q=`ΔABC ≅ ΔDEF โดย AB = (${m}x − ${k}) ซม. และ DE = ${v} ซม.`;ans=x;ex=`AB สมนัยกับ DE → ${m}x − ${k} = ${v} → x = ${x}`}
+ else{const A=rnd(4,9)*10,B2=rnd(3,8)*10;ans=180-A-B2;ask='ขนาดของ ∠F (องศา)';ex2=[A,B2];q=`ΔABC ≅ ΔDEF โดย ∠A = ${A}° และ ∠B = ${B2}°`;ex=`∠C = 180 − ${A} − ${B2} = ${ans}° และ C สมนัยกับ F → ∠F = ${ans}°`}
+ const o=new Set([ans]);ex2.forEach(n=>o.add(n));while(o.size<4)o.add(Math.max(1,ans+pk([-10,-5,-3,-2,-1,1,2,3,5,10])));
+ cu={ans,ex};const op=[...o].slice(0,4);if(!op.includes(ans))op[0]=ans;
+ B.innerHTML=hdr('สูตรลับ')+`<div class="gcard big">🧴 ${q}<br><b>ต้องเติมสาร ${ask} เท่าใด?</b><small>ลากขวดที่มีคำตอบลงหม้อ</small></div><div class="gr2">${shf(op).map(n=>`<button class="gp dg bot" data-n="${n}"><span>🧪</span><b>${n}</b></button>`).join('')}</div><div id="gr"></div>`}
+const nx=()=>{lock=0;hud();({rec:nRec,rush:nRush,sec:nSec})[M]();TL=TLM[M];qt0=performance.now();clearInterval(tm);tick();tm=setInterval(tick,100)};
+function tick(){const rem=Math.max(0,TL-(performance.now()-qt0)/1000),f=rem/TL,b=$('tmb');$('gt').textContent=Math.ceil(rem);b.style.width=f*100+'%';b.style.background=f>.5?'#51cf66':f>.25?'#fcc419':'#ff6b6b';if(rem<=0&&!lock){clearInterval(tm);answer(null,null,1)}}
+function start(m){gen++;clearInterval(tm);pzT=0;potId=Date.now().toString(36).slice(-6);M=m;rs=[];qi=0;Sc=0;Cb=0;document.querySelectorAll('#gm .gmb').forEach(b=>b.classList.toggle('on',b.dataset.m==m));bin.style.display=m=='rush'?'flex':'none';cau.classList.remove('boom');face(1);cs('หิวแล้ว! ป้อนคำตอบให้ฉันหน่อย 🍲');nx()}
+function answer(w,el,to){if(lock)return;lock=1;clearInterval(tm);const es=(performance.now()-qt0)/1000;let ok,msg;if(dg){ghost&&ghost.remove();dg.classList.remove('lift');dg=null;cau.classList.remove('hot');bin.classList.remove('hot')}
+ if(to){ok=false;msg='⏰ หมดเวลา! ';if(M=='rec'){document.querySelectorAll('.co').forEach((b,i)=>cu.ok[i]&&b.classList.add('right'));msg+='ข้อนี้ต้องเลือกตามเงื่อนไข '+CN[cu.c]}else msg+=M=='sec'?cu.ex:cu.w}
+ else if(M=='rec'){ok=w=='pot'&&!!cu.ok[el.dataset.i];el.classList.add(ok?'right':'wrong');msg=ok?`✅ ถูก! ${CN[cu.c]}: ${EX[cu.c]}`:`❌ ยังไม่ใช่ — ตำรับนี้ต้องตรงทุกค่าตามเงื่อนไข ${CN[cu.c]}`}
+ else if(M=='sec'){ok=+el.dataset.n==cu.ans;msg=(ok?'✅ ถูกต้อง! ':'❌ ยังไม่ถูก ')+cu.ex}
+ else{ok=(w=='pot')==(cu.ok==1);msg=(ok?'✅ ถูก! ':'❌ พลาด ')+cu.w}
+ const tp=ok?Math.round(50*Math.max(0,1-es/TL)):0,pts=ok?50+tp:0;rs[qi]=ok;Sc+=pts;Cb=ok?Cb+1:0;msg+=ok?` · +${pts} คะแนน (โบนัสตอบผ่าน 50 + เวลา ${tp})`:' · +0 คะแนน';
+ LG.log('q',{mode:M,pot:potId,q:qi+1,res:ok?'ถูก':to?'หมดเวลา':'ผิด',sec:+Math.min(es,TL).toFixed(1),lim:TL,base:ok?50:0,tp,pts});
+ face(ok);hud();cau.classList.remove('eat');void cau.offsetWidth;cau.classList.add('eat');fx(cau,ok?['✨','🫧','⭐','💖']:['💥','💨','😵']);
+ cs(ok?pk(['อร่อย! ยาเริ่มส่องแสงแล้ว ✨','ใช่เลย! ยอดเยี่ยม 🎉','ฟองฟู่ฟ่า ถูกต้อง! 🫧']):pk(['อุ๊ย รสแปลกๆ… 😵','สีของยาเริ่มเปลี่ยนแล้ว 💦','ไม่เป็นไร ไปต่อกัน 💪']));say(ok?'เก่งมาก! 🎉':'ไม่เป็นไร อ่านเหตุผลนะ 💪',ok);
+ const g=$('gr');g&&(g.innerHTML=`<div class="mean">${msg}</div>`);const gn=gen;setTimeout(()=>{if(gn!=gen)return;++qi>=NQ?finale():nx()},2600)}
+function finale(){gen++;clearInterval(tm);$('gt').textContent='–';const g=gen,k=rs.filter(Boolean).length;cau.classList.add('boom');cs('กำลังผสม... ลุ้นนะ! 🌀');B.innerHTML='<div class="gcard big">🌀 กำลังต้มยา... ลุ้นดูว่าจะได้อะไรออกมา!</div>';
+ setTimeout(()=>{if(g!=gen)return;cau.classList.remove('boom');const it=pk(TIER[k]);bag.push(it[0]);LG.log('pot',{mode:M,pot:potId,k,score:Sc,item:it[1]});face(k>0);cs(k>0?'สำเร็จแล้ว! 🎊':'แค่กๆ… ขอโทษนะ 😢');
+  B.innerHTML=`<div class="gcard big"><div class="pop">${it[0]}</div>ได้ <b>${it[1]}</b>!<br>ถูก ${k}/${NQ} ข้อ · ${Sc}/500 คะแนน<br><small>${MSG[k]}</small></div><div class="gr2"><button class="btn gn gp" data-r="1">🔄 ปรุงหม้อใหม่</button>${k<3?'<button class="btn yl gp" onclick="go(\'lab\')">🧪 ไปทบทวนในห้องทดลอง</button>':''}</div>`;
+  $('bag').innerHTML='🎒 คลังสมบัติ: '+bag.join(' ');say(MSG[k].slice(0,40),k>0);if(k>=4)for(let i=0;i<3;i++)setTimeout(()=>fx(cau,['🎉','⭐','✨','🧪']),i*300)},1900)}
+const over=(e,x,y)=>{const r=e.getBoundingClientRect();return e.offsetParent!==null&&x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom};
+function gstart(el,x,y,h){if(lock||dg)return;dg=el;hd=h;mv=0;gx=[x,y];const r=el.getBoundingClientRect();ghost=el.cloneNode(true);ghost.classList.add('ghost');ghost.style.width=r.width+'px';ghost._o=[x-r.left,y-r.top];document.body.appendChild(ghost);el.classList.add('lift');gmove(x,y)}
+function gmove(x,y){if(!dg)return;if(Math.hypot(x-gx[0],y-gx[1])>8)mv=1;ghost.style.left=x-ghost._o[0]+'px';ghost.style.top=y-ghost._o[1]+'px';cau.classList.toggle('hot',over(cau,x,y));bin.classList.toggle('hot',over(bin,x,y))}
+function gend(x,y){if(!dg)return;const el=dg;ghost.remove();ghost=null;dg=null;el.classList.remove('lift');cau.classList.remove('hot');bin.classList.remove('hot');
+ if(over(cau,x,y))answer('pot',el);else if(over(bin,x,y))answer('bin',el);else if(!mv&&M!='rush')answer('pot',el)}
+B.addEventListener('pointerdown',e=>{const d=e.target.closest('.dg');if(d){e.preventDefault();gstart(d,e.clientX,e.clientY,0)}});
+addEventListener('pointermove',e=>dg&&!hd&&gmove(e.clientX,e.clientY));
+addEventListener('pointerup',e=>dg&&!hd&&gend(e.clientX,e.clientY));
+addEventListener('pointercancel',()=>dg&&!hd&&gend(-1,-1));
+B.onclick=e=>{const b=e.target.closest('.gp');if(!b)return;const d=b.dataset;
+ if(d.r)return start(M);
+ if(d.a!==undefined)return answer(d.a=='1'?'pot':'bin',null);
+ if(b.classList.contains('dg')&&e.detail===0&&M!='rush')answer('pot',b)};
+$('gm').onclick=e=>{const b=e.target.closest('.gmb');b&&start(b.dataset.m)};
+B.innerHTML='<div class="gcard big">⚗️ ยินดีต้อนรับสู่ร้านปรุงยา!<br>ปรุง 1 หม้อ = 5 ขวด ลากคำตอบลงหม้อให้ครบ แล้วลุ้นว่าจะได้อะไร<br>🦄 ถูกหมด = สัตว์/ขนมสุดน่ารัก · 🔮 ถูกบ้าง = ของวิเศษ · ☠️ ผิดหมด = ยาพิษ (แต่มีกำลังใจให้เสมอ 💚)<br><br>⏱ แต่ละข้อมีเวลาจำกัด · ตอบถูก = 50 คะแนน + คะแนนความเร็วอีกสูงสุด 50 (เต็ม 100 ต่อข้อ)<small>เลือกโหมดด้านบนเพื่อเริ่มเลย</small></div>';
+
+/* ---------- MediaPipe hand control ---------- */
+const hc=$('hcur'),vd=$('cam'),cv=$('ov'),hb=$('hb'),hs=$('hs2');
+let hl=null,on=false,cx=innerWidth/2,cy=innerHeight/2,pin=false,hv=null,h0=0,dn=0,lt=-1,st=null;
+function off(k){on=false;st&&st.getTracks().forEach(t=>t.stop());st=null;hc.style.display='none';$('hvw').style.display='none';hb.textContent='🖐️ เปิดกล้องเล่นด้วยมือ (MediaPipe)';if(!k)hs.textContent='💡 เล่นด้วยเมาส์/นิ้วสัมผัสได้ หรือเปิดกล้องแล้วใช้นิ้วชี้เป็นเมาส์: ค้างบนปุ่ม ~1.5 วินาที “จีบ” นิ้วเพื่อหยิบขวดไปปล่อยลงหม้อ หรือชี้ค้าง ~1.5 วินาที'}
+async function hand(){
+ if(on)return off();
+ hb.disabled=true;
+ if(!window.isSecureContext||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){hs.textContent='⚠️ เปิดกล้องไม่ได้ในหน้านี้ — กล้องใช้ได้เฉพาะเมื่อเปิดผ่านลิงก์ https:// (ไม่ใช่ไฟล์ในเครื่องหรือ http) · ยังเล่นด้วยนิ้วสัมผัสหรือเมาส์ได้ตามปกติ';hb.disabled=false;return}
+ try{
+  hs.textContent='📷 กรุณากด “อนุญาต” เพื่อใช้กล้อง...';
+  try{st=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'},width:{ideal:320},height:{ideal:240}},audio:false})}
+  catch(e){if(e&&e.name=='OverconstrainedError')st=await navigator.mediaDevices.getUserMedia({video:true,audio:false});else throw e}
+  vd.srcObject=st;vd.muted=true;vd.setAttribute('playsinline','');await vd.play();
+  hs.textContent='⏳ กำลังโหลดระบบตรวจจับมือ (ต้องต่ออินเทอร์เน็ต)...';
+  if(!hl){const U='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14',V=await import(U+'/vision_bundle.mjs'),fs=await V.FilesetResolver.forVisionTasks(U+'/wasm'),mk=d=>V.HandLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',delegate:d},runningMode:'VIDEO',numHands:1});hl=await mk('GPU').catch(()=>mk('CPU'))}
+  on=true;$('hvw').style.display='block';hb.textContent='🛑 ปิดกล้อง';hs.textContent='🖐️ ยกมือให้กล้องเห็น แล้วชี้ด้วยนิ้วชี้ → ค้างบนปุ่ม ~1.5 วินาที หรือ “จีบ” นิ้วเพื่อหยิบขวดไปปล่อยลงหม้อ';loop()
+ }catch(e){const n=e&&e.name,m=n=='NotAllowedError'||n=='SecurityError'?'ไม่ได้รับอนุญาตให้ใช้กล้อง — เปิดการตั้งค่าเบราว์เซอร์/เว็บไซต์ แล้วเลือก “อนุญาตกล้อง” จากนั้นลองใหม่':n=='NotFoundError'?'ไม่พบกล้องในอุปกรณ์นี้':n=='NotReadableError'?'กล้องกำลังถูกแอปอื่นใช้อยู่ ปิดแอปนั้นก่อนแล้วลองใหม่':'โหลดระบบตรวจจับมือไม่สำเร็จ ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่ ('+((e&&e.message)||e)+')';
+  off(1);hs.textContent='⚠️ '+m+' — ยังเล่นด้วยนิ้วสัมผัสหรือเมาส์ได้ตามปกติ'}
+ hb.disabled=false}
+function loop(){if(!on)return;requestAnimationFrame(loop);if(vd.currentTime===lt||vd.readyState<2)return;lt=vd.currentTime;
+ let r;try{r=hl.detectForVideo(vd,performance.now())}catch(e){off(1);hl=null;hs.textContent='⚠️ ระบบตรวจจับมือทำงานไม่ได้บนอุปกรณ์นี้ — ยังเล่นด้วยนิ้วสัมผัสหรือเมาส์ได้ตามปกติ';return}
+  const h=r.landmarks&&r.landmarks[0],x=cv.getContext('2d');cv.width=320;cv.height=240;
+ if(!h){hc.style.display='none';return}
+ x.fillStyle='#ffd43b';h.forEach(q=>{x.beginPath();x.arc(q.x*320,q.y*240,4,0,7);x.fill()});
+ const t=h[8],th=h[4],sz=Math.hypot(h[0].x-h[9].x,h[0].y-h[9].y),X=Math.min(1,Math.max(0,(1-t.x-.12)/.76))*innerWidth,Y=Math.min(1,Math.max(0,(t.y-.12)/.76))*innerHeight;
+ cx+=(X-cx)*.4;cy+=(Y-cy)*.4;hc.style.display='block';hc.style.transform=`translate(${cx-20}px,${cy-20}px)`;
+ const pn=Math.hypot(t.x-th.x,t.y-th.y)<.3*sz,e=document.elementFromPoint(cx,cy),el=e&&e.closest('.gp'),n=performance.now();
+ hc.classList.toggle('pn',pn);
+ if(el!==hv){hv&&hv.classList.remove('hv');hv=el;h0=n;dn=0;el&&el.classList.add('hv')}
+ if(pn&&!pin){const d=e&&e.closest('.dg');if(d)gstart(d,cx,cy,1);else if(el){dn=1;el.click()}}
+ else if(pn&&dg)gmove(cx,cy);
+ else if(!pn&&pin&&dg)gend(cx,cy);
+ else if(el&&!dn&&!pn&&n-h0>1500){dn=1;el.click()}
+ pin=pn}
+hb.onclick=hand;
+const pz=()=>{if(!lock&&qt0&&!pzT){clearInterval(tm);pzT=performance.now()}},rz=()=>{if(pzT){qt0+=performance.now()-pzT;pzT=0;clearInterval(tm);tm=setInterval(tick,100)}};
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.p!='game'){off();pz()}else rz()}));
+})();
+</script>
+</body>
+</html>
